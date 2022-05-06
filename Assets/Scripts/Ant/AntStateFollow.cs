@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class AntStateFollow : AntState
 {
-    // Start is called before the first frame update
-    void Start()
+    Ant antScript;
+    public AntStateFollow(Ant _antScript)
     {
-        this.enabled = false;
+        antScript = _antScript;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void Move()
+    {
+
+    }
+
+    public override void Turn()
     {
 
     }
