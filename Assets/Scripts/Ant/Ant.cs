@@ -4,19 +4,32 @@ using UnityEngine;
 
 public class Ant : MonoBehaviour
 {
-    float movementSpeed = 1.5f; //maksymalna prêdkoœæ
-    float maxTurnAngle = 15f; // maksymalny k¹t skrêtu
-    float stepTime = 0.5f; // czas pomiêdzy krokami
+    Rigidbody2D rb; // komponent odpowiadajacy za fizyke obiektu
+    public static float movementSpeed = 1.5f; //maksymalna predkosc
+    public static float maxTurnAngle = 15f; // maksymalny kat skretu
+    public static float stepTime = 0.5f; // czas pomiedzy krokami
+    public float stepTimeLeft = 0f;
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        GetComponent<AntState>().antScript = this;
+    }
 
     void Start()
     {
-        //powiêkszenie na cele testów
+        //powiekszenie na cele testow
         transform.localScale *= 8f;
     }
 
     void Update()
     {
-        transform.position += (Vector3.up * movementSpeed * Time.deltaTime);
+        stepTimeLeft -= Time.deltaTime;
+
+        if(stepTimeLeft <= 0f)
+        {
+            stepTimeLeft = stepTime;
+            
+        }
     }
 }

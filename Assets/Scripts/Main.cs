@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-    // tymczasowy obiekt gry, potem bêdzie znajdowa³ siê w skrypcie dla mrowiska
+    // tymczasowy obiekt gry, potem bedzie znajdowal sie w skrypcie dla mrowiska
     GameObject ant;
     private void Awake()
     {
@@ -14,15 +14,27 @@ public class Main : MonoBehaviour
         CreateAntGameObject();
         SpawnAnt();
     }
-    //tymczasowa funkcja do tworzenia mrówki, bêdzie siê znajdowa³a w kodzie mrowiska
+    //tymczasowa funkcja do tworzenia mrowki, bedzie sie znajdowala w kodzie mrowiska
     void CreateAntGameObject()
     {
-        ant = new GameObject("Ant", typeof(SpriteRenderer), typeof(Ant));
+        // tworzenie GameObject mrowki i dodawanie komponentow
+        ant = new GameObject();
+        ant.AddComponent<SpriteRenderer>();
+        ant.AddComponent<Rigidbody2D>();
+        ant.AddComponent<Ant>();
+        ant.AddComponent<AntState>();
+        ant.AddComponent<AntStateSearch>();
+        ant.AddComponent<AntStateFollow>();
+        ant.AddComponent<AntStateReturn>();
+        ant.name = "Ant";
         ant.SetActive(false);
+        // dodawanie tekstur do mrÃ³wki
         Texture2D antTexture = (Texture2D)Resources.Load("Textures/AntTexture");
-        Sprite antSprite;
-        antSprite = Sprite.Create(antTexture, new Rect(0f, 0f, antTexture.width, antTexture.height), new Vector2(0.5f, 0.5f), 4096);
+        Sprite antSprite = Sprite.Create(antTexture, new Rect(0f, 0f, antTexture.width, antTexture.height), new Vector2(0.5f, 0.5f), 4096);
         ant.GetComponent<SpriteRenderer>().sprite = antSprite;
+        // zmiany w komponencie Rigidbody (fizyka mrÃ³wki)
+        ant.GetComponent<Rigidbody2D>().gravityScale = 0f;
+
     }
     // tymczasowa funkcja
     void SpawnAnt()
