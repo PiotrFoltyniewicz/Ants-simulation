@@ -9,9 +9,7 @@ public class Main : MonoBehaviour
     GameObject nest;
     private void Awake()
     {
-    }
-    void Start()
-    {
+        gameObject.AddComponent<FoodManager>();
         CreateNestGameObject();
     }
 
@@ -28,6 +26,6 @@ public class Main : MonoBehaviour
         nest.GetComponent<SpriteRenderer>().color = Color.blue;
         nest.transform.position = new Vector2(Random.Range(-8,8), Random.Range(-4,4));
 
-    }  
+    } 
 
 }

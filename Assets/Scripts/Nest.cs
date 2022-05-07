@@ -14,11 +14,6 @@ public class Nest : MonoBehaviour
         SpawnAnt();
     }
 
-    void Update()
-    {
-        
-    }
-
     void SpawnAnt()
     {
         GameObject temp = Instantiate(ant, transform);
