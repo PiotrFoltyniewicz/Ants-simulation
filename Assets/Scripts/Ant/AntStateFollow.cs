@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class AntStateFollow : AntState
 {
-    Ant antScript;
-    public AntStateFollow(Ant _antScript)
-    {
-        antScript = _antScript;
-    }
     public override void Move()
     {
 

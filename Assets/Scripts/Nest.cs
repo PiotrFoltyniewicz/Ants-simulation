@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Nest : MonoBehaviour
 {
-    GameObject ant;
+    GameObject ant; // GameObject mrowki
     private void Awake()
     {
         CreateAntGameObject();
     }
     void Start()
     {
-        //dopisalem essa
-        for(int i = 0; i < 501; i++)
         SpawnAnt();
     }
 

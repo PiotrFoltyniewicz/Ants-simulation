@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class FoodManager : MonoBehaviour
 {
-    GameObject food;
-    Transform foodPoint;
+    GameObject food; // GameObject jedzenia
+    Transform foodPoint; // Punkt centrum spawnu jedzenia
     private void Awake()
     {
         CreateFoodPoint();
         CreateFoodGameObject();
     }
 
+    // tworzenie GameObjectu jedzenia
     void CreateFoodGameObject()
     {
         food = new GameObject();

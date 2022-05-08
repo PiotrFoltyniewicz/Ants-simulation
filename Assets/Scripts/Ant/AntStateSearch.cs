@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class AntStateSearch : AntState
 {
+    // poruszanie mrowki do przodu
     public override void Move()
     {
         transform.position += transform.up * Ant.movementSpeed * Time.deltaTime;
     }
 
-    // mrowka idzie losowo przed siebie
+    // obrot mrowki 
     public override void Turn(float turnAngle)
     {
         float randomTurnAngle = Random.Range(-turnAngle, turnAngle);
