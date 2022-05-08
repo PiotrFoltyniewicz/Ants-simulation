@@ -10,9 +10,10 @@ public class AntStateSearch : AntState
     }
 
     // mrowka idzie losowo przed siebie
-    public override void Turn()
+    public override void Turn(float turnAngle)
     {
-        float randomTurnAngle = Random.Range(-Ant.turnStrength, Ant.turnStrength);
-        transform.rotation = Quaternion.identity * Quaternion.Euler(0f, 0f, randomTurnAngle);
+        float randomTurnAngle = Random.Range(-turnAngle, turnAngle);
+        transform.rotation = transform.rotation * Quaternion.Euler(0f, 0f, randomTurnAngle);
     }
+
 }

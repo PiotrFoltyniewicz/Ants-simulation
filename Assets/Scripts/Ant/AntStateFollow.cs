@@ -14,7 +14,7 @@ public class AntStateFollow : AntState
 
     }
 
-    public override void Turn()
+    public override void Turn(float turnAngle)
     {
 
     }

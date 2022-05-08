@@ -5,10 +5,10 @@ using UnityEngine;
 public class Ant : MonoBehaviour
 {
     AntState antState;
-    public static float movementSpeed = 1.5f; //maksymalna predkosc
-    public static float turnStrength = 15f; // maksymalna sila skretu
-    public static float stepTime = 0.1f; // czas pomiedzy krokami
-    public float stepTimeLeft = 0f;
+    public static float movementSpeed = 4f; //maksymalna predkosc
+    public static float maxTurnAngle = 10f; // maksymalna sila skretu
+    public static float stepTime = 0.2f; // czas pomiedzy krokami
+    float stepTimeLeft = 0f;
 
     AntState[] states;
 
@@ -31,7 +31,7 @@ public class Ant : MonoBehaviour
         if(stepTimeLeft <= 0)
         {
             stepTimeLeft = stepTime;
-            antState.Turn();
+            antState.Turn(maxTurnAngle);
         }
 
         antState.Move();

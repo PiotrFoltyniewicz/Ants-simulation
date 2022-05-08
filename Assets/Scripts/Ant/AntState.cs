@@ -5,6 +5,6 @@ using UnityEngine;
 public abstract class AntState: MonoBehaviour
 {
     public abstract void Move();
-    public abstract void Turn();
+    public abstract void Turn(float turnAngle);
 
 }
