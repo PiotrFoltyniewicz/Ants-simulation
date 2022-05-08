@@ -12,7 +12,7 @@ public class Nest : MonoBehaviour
     void Start()
     {
         //dopisalem essa
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 501; i++)
         SpawnAnt();
     }
 
