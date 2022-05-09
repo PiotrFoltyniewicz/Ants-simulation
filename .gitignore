@@ -22,6 +22,10 @@
 # Visual Studio cache directory
 .vs/
 
+# Visual Studio Code cache directory
+
+.vscode/
+
 # Gradle cache directory
 .gradle/
 
@@ -60,5 +64,5 @@ crashlytics-build.properties
 
 # Sussy tworzy problemy
 
-/[Uu]serSettings/
+[Uu]serSettings/
 
