@@ -19,7 +19,8 @@ public class FoodManager : MonoBehaviour
         food.SetActive(false);
         food.AddComponent<SpriteRenderer>();
         food.name = "Food";
-        // dodawanie tekstur do mrówki
+        food.tag = "Food";
+        // dodawanie tekstur do mrï¿½wki
         Texture2D foodTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite foodSprite = Sprite.Create(foodTexture, new Rect(0f, 0f, foodTexture.width, foodTexture.height), new Vector2(0.5f, 0.5f), 2048);
         food.GetComponent<SpriteRenderer>().sprite = foodSprite;

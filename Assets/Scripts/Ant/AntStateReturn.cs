@@ -13,4 +13,10 @@ public class AntStateReturn : AntState
     {
 
     }
+
+    // pozostawienie punktu
+        public override void LeavePoint(Vector2 position)
+    {
+        throw new System.NotImplementedException();
+    }
 }

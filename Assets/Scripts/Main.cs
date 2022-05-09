@@ -9,6 +9,7 @@ public class Main : MonoBehaviour
     {
         gameObject.AddComponent<FoodManager>();
         CreateNestGameObject();
+        CreateBoundaryColliders();
     }
 
     // tworzenie GameObjectu mrowiska
@@ -18,6 +19,7 @@ public class Main : MonoBehaviour
         nest.AddComponent<SpriteRenderer>();
         nest.AddComponent<Nest>();
         nest.name = "Nest";
+        nest.tag = "Nest";
         // dodawanie tekstur do mrówki
         Texture2D nestTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite nestSprite = Sprite.Create(nestTexture, new Rect(0f, 0f, nestTexture.width, nestTexture.height), new Vector2(0.5f, 0.5f), 256);
@@ -26,6 +28,20 @@ public class Main : MonoBehaviour
         // pozycjonowanie gniazda w losowym miejscu
         nest.transform.position = new Vector2(Random.Range(-8,8), Random.Range(-4,4));
 
-    } 
-
+    }
+    void CreateBoundaryColliders()
+    {
+        BoxCollider2D top = gameObject.AddComponent<BoxCollider2D>();
+        top.size = new Vector2(18f, 1f);
+        top.offset = new Vector2(0f, 5.5f);
+        BoxCollider2D bottom = gameObject.AddComponent<BoxCollider2D>();
+        bottom.size = new Vector2(18f, 1f);
+        bottom.offset = new Vector2(0f, -5.5f);
+        BoxCollider2D right = gameObject.AddComponent<BoxCollider2D>();
+        right.size = new Vector2(1f, 10f);
+        right.offset = new Vector2(9.5f, 0f);
+        BoxCollider2D left = gameObject.AddComponent<BoxCollider2D>();
+        left.size = new Vector2(1f, 10f);
+        left.offset = new Vector2(-9.5f, 0f);
+    }
 }
