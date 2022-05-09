@@ -17,7 +17,6 @@ public class Nest : MonoBehaviour
     {
         // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
         // obliczyc rotacje i dac jako parametr funkcji
-        for(int i = 0; i < 100; i++)
         SpawnAnt(0);
     }
 
