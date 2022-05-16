@@ -7,6 +7,8 @@ public class Nest : MonoBehaviour
     GameObject ant; // GameObject mrowki
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
+
+    float antNumber = 8; //liczba mrówek
     private void Awake()
     {
         CreateToFoodPointGameObject();
@@ -17,11 +19,11 @@ public class Nest : MonoBehaviour
     {
         // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
         // obliczyc rotacje i dac jako parametr funkcji
-        for(int i=0; i<200; i++){
+        for(int i=1; i<antNumber+1; i++){
         ant.transform.eulerAngles = new Vector3(
         ant.transform.eulerAngles.x,
         ant.transform.eulerAngles.y + 180,
-        ant.transform.eulerAngles.z + i
+        ant.transform.eulerAngles.z + 360/antNumber 
 );
         SpawnAnt(0);};
     }
