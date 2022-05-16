@@ -6,10 +6,22 @@ public class FoodManager : MonoBehaviour
 {
     GameObject food; // GameObject jedzenia
     Transform foodPoint; // Punkt centrum spawnu jedzenia
-    private void Awake()
+    void Awake()
     {
         CreateFoodPoint();
         CreateFoodGameObject();
+    }
+
+    private void Start()
+    {
+        // kod na spawnowanie jedzenia
+
+    }
+
+    // spawn jedzenia
+    void SpawnFood(Vector2 position)
+    {
+        Instantiate(food, position, Quaternion.identity);
     }
 
     // tworzenie GameObjectu jedzenia
