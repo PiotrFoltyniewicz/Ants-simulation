@@ -14,9 +14,8 @@ public class Ant : MonoBehaviour
     float leavePointTimeLeft = 0f;
     float stepTimeLeft = 0f; // czas pozostaly do nastepnego kroku
     int currentState; // obecny stan w postaci cyfry
-
     AntState[] states;
-
+     
     void Awake()
     {
         // dodanie komponentow stanow mrowki do obiektu
@@ -49,6 +48,8 @@ public class Ant : MonoBehaviour
         }
 
         antState.Move();
+
+        
     }
 
     // zmiana stanu mrowki
@@ -72,5 +73,11 @@ public class Ant : MonoBehaviour
                 currentState = 2;
                 break;
         }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D coll) {
+        float bounce = transform.eulerAngles.z;
+        //odbicie mrowki od sciany
+        transform.rotation = Quaternion.Euler(0, 0, bounce + Random.Range(150, 210));
     }
 }
