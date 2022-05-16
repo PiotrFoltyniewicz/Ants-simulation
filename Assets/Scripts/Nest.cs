@@ -8,7 +8,7 @@ public class Nest : MonoBehaviour
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
 
-    float antNumber = 8; //liczba mrówek
+    float antNumber = 100; //liczba mrówek
     private void Awake()
     {
         CreateToFoodPointGameObject();
@@ -39,6 +39,10 @@ public class Nest : MonoBehaviour
         ant = new GameObject();
         ant.AddComponent<SpriteRenderer>();
         ant.AddComponent<Ant>();
+        ant.AddComponent<CircleCollider2D>();
+        ant.AddComponent<Rigidbody2D>();
+        ant.GetComponent<Rigidbody2D>().gravityScale = 0f;
+        ant.layer = 6;
         //dodawanie komponentow dotyczacych stanow
         ant.AddComponent<AntStateSearch>();
         ant.GetComponent<AntStateSearch>().pointObject = toNestPoint;
@@ -53,7 +57,7 @@ public class Nest : MonoBehaviour
         Texture2D antTexture = (Texture2D)Resources.Load("Textures/AntTexture");
         Sprite antSprite = Sprite.Create(antTexture, new Rect(0f, 0f, antTexture.width, antTexture.height), new Vector2(0.5f, 0.5f), 4096);
         ant.GetComponent<SpriteRenderer>().sprite = antSprite;
-
+        ant.GetComponent<CircleCollider2D>().radius = 0.05f;
     }
     void CreateToFoodPointGameObject()
     {

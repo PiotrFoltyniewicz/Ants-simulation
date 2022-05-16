@@ -32,16 +32,16 @@ public class Main : MonoBehaviour
     void CreateBoundaryColliders()
     {
         BoxCollider2D top = gameObject.AddComponent<BoxCollider2D>();
-        top.size = new Vector2(18f, 1f);
+        top.size = new Vector2(19f, 1f);
         top.offset = new Vector2(0f, 5.5f);
         BoxCollider2D bottom = gameObject.AddComponent<BoxCollider2D>();
-        bottom.size = new Vector2(18f, 1f);
+        bottom.size = new Vector2(19f, 1f);
         bottom.offset = new Vector2(0f, -5.5f);
         BoxCollider2D right = gameObject.AddComponent<BoxCollider2D>();
-        right.size = new Vector2(1f, 10f);
+        right.size = new Vector2(1f, 11f);
         right.offset = new Vector2(9.5f, 0f);
         BoxCollider2D left = gameObject.AddComponent<BoxCollider2D>();
-        left.size = new Vector2(1f, 10f);
+        left.size = new Vector2(1f, 11f);
         left.offset = new Vector2(-9.5f, 0f);
     }
 }
