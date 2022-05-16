@@ -17,7 +17,13 @@ public class Nest : MonoBehaviour
     {
         // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
         // obliczyc rotacje i dac jako parametr funkcji
-        SpawnAnt(0);
+        for(int i=0; i<200; i++){
+        ant.transform.eulerAngles = new Vector3(
+        ant.transform.eulerAngles.x,
+        ant.transform.eulerAngles.y + 180,
+        ant.transform.eulerAngles.z + i
+);
+        SpawnAnt(0);};
     }
 
     void SpawnAnt(float rotation)
