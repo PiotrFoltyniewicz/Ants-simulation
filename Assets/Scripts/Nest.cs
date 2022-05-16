@@ -7,6 +7,7 @@ public class Nest : MonoBehaviour
     GameObject ant; // GameObject mrowki
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
+    int numberOfAnts = 100;
     private void Awake()
     {
         CreateToFoodPointGameObject();
@@ -16,25 +17,19 @@ public class Nest : MonoBehaviour
     void Start()
     {
         // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
-        // obliczyc rotacje i dac jako parametr funkcji
-        for(int i=0; i<200; i++){
-        ant.transform.eulerAngles = new Vector3(
-        ant.transform.eulerAngles.x,
-        ant.transform.eulerAngles.y + 180,
-        ant.transform.eulerAngles.z + i
-);
-        SpawnAnt(0);};
+        for (int i = 0; i < numberOfAnts; i++)
+        {
+            ant.transform.eulerAngles = new Vector3(
+            ant.transform.eulerAngles.x,
+            ant.transform.eulerAngles.y,
+            ant.transform.eulerAngles.z + i);
+            SpawnAnt();
+        };
     }
 
-    void SpawnAnt(float rotation)
+    void SpawnAnt()
     {
-        GameObject temp = Instantiate(ant, transform);
-        temp.SetActive(false);
-        
-        // tutaj obracac pojedyncza mrowke
-
-        temp.SetActive(true);
-
+        Instantiate(ant, transform).SetActive(true);
     }
 
     void CreateAntGameObject()
@@ -59,7 +54,7 @@ public class Nest : MonoBehaviour
         ant.GetComponent<SpriteRenderer>().sprite = antSprite;
 
     }
-        void CreateToFoodPointGameObject()
+    void CreateToFoodPointGameObject()
     {
         toFoodPoint = new GameObject();
         toFoodPoint.AddComponent<SpriteRenderer>();
@@ -68,7 +63,7 @@ public class Nest : MonoBehaviour
         toFoodPoint.tag = "ToFoodPoint";
         // dodawanie tekstur do mrówki
         Texture2D toFoodPointTexture = (Texture2D)Resources.Load("Textures/Circle");
-        Sprite toFoodPointSprite = Sprite.Create(toFoodPointTexture, new Rect(0f, 0f, toFoodPointTexture.width, toFoodPointTexture.height), new Vector2(0.5f, 0.5f), 4096);
+        Sprite toFoodPointSprite = Sprite.Create(toFoodPointTexture, new Rect(0f, 0f, toFoodPointTexture.width, toFoodPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
         toFoodPoint.GetComponent<SpriteRenderer>().sprite = toFoodPointSprite;
         toFoodPoint.GetComponent<SpriteRenderer>().color = Color.yellow;
         toFoodPoint.SetActive(false);
@@ -83,7 +78,7 @@ public class Nest : MonoBehaviour
         toNestPoint.tag = "ToNestPoint";
         // dodawanie tekstur do mrówki
         Texture2D toNestPointTexture = (Texture2D)Resources.Load("Textures/Circle");
-        Sprite toNestPointSprite = Sprite.Create(toNestPointTexture, new Rect(0f, 0f, toNestPointTexture.width, toNestPointTexture.height), new Vector2(0.5f, 0.5f), 4096);
+        Sprite toNestPointSprite = Sprite.Create(toNestPointTexture, new Rect(0f, 0f, toNestPointTexture.width, toNestPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
         toNestPoint.GetComponent<SpriteRenderer>().sprite = toNestPointSprite;
         toNestPoint.GetComponent<SpriteRenderer>().color = Color.cyan;
         toNestPoint.SetActive(false);

@@ -26,7 +26,7 @@ public class Ant : MonoBehaviour
     void Start()
     {
         //powiekszenie na cele testow
-        transform.localScale *= 4f;
+        //transform.localScale *= 4f;
         
 
         ChangeState(0);
