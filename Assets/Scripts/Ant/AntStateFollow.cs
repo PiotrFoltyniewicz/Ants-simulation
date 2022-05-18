@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class AntStateFollow : AntState
 {
-    public override void Move()
-    {
-
-    }
-
     public override void Turn(float turnAngle)
     {
 

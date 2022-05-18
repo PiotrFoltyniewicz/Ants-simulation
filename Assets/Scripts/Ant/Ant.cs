@@ -5,11 +5,13 @@ using UnityEngine;
 public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
-    public static float movementSpeed = 1f; //maksymalna predkosc
+    public static float movementSpeed = 0.6f; //maksymalna predkosc
     public static float maxTurnAngle = 10f; // maksymalna sila skretu
     public static float stepTime = 0.2f; // czas pomiedzy krokami
 
     public static float leavePointTime = 0.5f;
+
+    public GameObject[] sensors;
 
     float leavePointTimeLeft = 0f;
     float stepTimeLeft = 0f; // czas pozostaly do nastepnego kroku
@@ -24,10 +26,6 @@ public class Ant : MonoBehaviour
 
     void Start()
     {
-        //powiekszenie na cele testow
-        //transform.localScale *= 4f;
-        
-
         ChangeState(0);
     }
 
@@ -52,6 +50,11 @@ public class Ant : MonoBehaviour
         
     }
 
+    void CheckSensors()
+    {
+        
+    }
+
     // zmiana stanu mrowki
     public void ChangeState(int stateNum)
     {
@@ -72,6 +75,15 @@ public class Ant : MonoBehaviour
                 antState = states[2];
                 currentState = 2;
                 break;
+        }
+        foreach(var sensor in sensors)
+        {
+            Sensor sensorScript = sensor.GetComponent<Sensor>();
+            sensorScript.currentState = currentState;
+            sensorScript.insideSensorList.Clear();
+            sensorScript.sensorStrength = 0f;
+            if(currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
+            else sensorScript.pointTag = "ToNestPoint";
         }
     }
     

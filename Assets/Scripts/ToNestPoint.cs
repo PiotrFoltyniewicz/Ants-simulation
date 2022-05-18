@@ -13,15 +13,16 @@ public class ToNestPoint : Point
     {
         distanceToNest = FindDistanceToNest();
         pointTimeLeft = pointTime;
+        SetStartingValues();
     }
-        void Update()
+        void FixedUpdate()
     {
-        pointTimeLeft -= Time.deltaTime;
+        pointTimeLeft -= Time.fixedDeltaTime;
         if(pointTimeLeft < 0)
         {
             Disappear();
         }
-     //   spriteRenderer.color -= new Color(0f, 0f, 0f, 0.001f);
+        spriteRenderer.color -= new Color(0f, 0f, 0f, fade);
     }
     protected override float FindDistanceToNest()
     {

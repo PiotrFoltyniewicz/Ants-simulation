@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    protected float pointTime = 10f; // czas jak dlugo punkt sie utrzymuje
-    protected float pointTimeLeft; // pozostaly czas do znikniecia
+    protected float pointTime = 15f; // czas jak dlugo punkt sie utrzymuje
+    public float pointTimeLeft; // pozostaly czas do znikniecia
     public float distanceToNest; // odleglosc od mrowiska
-    public float strength; // sila jaki mocny jest punkt (maleje z czasem)
+    protected float fade; // obliczona wartosc jak mocno o klatke ma malec sila punktu
+
+    protected void SetStartingValues()
+    {
+        fade = Time.fixedDeltaTime / pointTime;
+    }
 
     protected virtual float FindDistanceToNest()
     {

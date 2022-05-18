@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class AntStateSearch : AntState
 {
-    // poruszanie mrowki do przodu
-    public override void Move()
-    {
-        transform.position += transform.up * Ant.movementSpeed * Time.deltaTime;
-    }
-
     // obrot mrowki 
     public override void Turn(float turnAngle)
     {

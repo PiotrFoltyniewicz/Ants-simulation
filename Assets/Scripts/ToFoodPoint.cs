@@ -13,6 +13,7 @@ public class ToFoodPoint : Point
     {
         distanceToNest = FindDistanceToNest();
         pointTimeLeft = pointTime;
+        SetStartingValues();
     }
     void Update()
     {
