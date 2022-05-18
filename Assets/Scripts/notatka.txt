@@ -1,0 +1,7 @@
+KOMENTARZ Z YT DOT. ZACHOWANIA MROWEK
+
+Markers closer to objectives are stronger so ants have more chances to pick the trail in the right direction.
+I had exactly the same problem of "bad circles" to avoid this ants have a limited amount of markers they can drop
+(which is recharged when they encounter home or food) so wandering ants have no impact on other after a certain time.
+
+TO MOZE TEZ POMOC Z LAGAMI
