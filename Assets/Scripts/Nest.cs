@@ -8,7 +8,7 @@ public class Nest : MonoBehaviour
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
 
-    float antNumber = 100; //liczba mrówek
+    float antNumber = 50; //liczba mrówek
     private void Awake()
     {
         CreateToFoodPointGameObject();
