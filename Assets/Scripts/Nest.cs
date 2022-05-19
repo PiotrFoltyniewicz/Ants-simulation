@@ -8,7 +8,7 @@ public class Nest : MonoBehaviour
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
 
-    float antNumber = 50; //liczba mrówek
+    float antNumber = 100; //liczba mrówek
     private void Awake()
     {
         CreateToFoodPointGameObject();
@@ -19,13 +19,15 @@ public class Nest : MonoBehaviour
     {
         // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
         // obliczyc rotacje i dac jako parametr funkcji
-        for(int i=1; i<antNumber+1; i++){
-        ant.transform.eulerAngles = new Vector3(
-        ant.transform.eulerAngles.x,
-        ant.transform.eulerAngles.y,
-        ant.transform.eulerAngles.z + 360/antNumber 
-);
-        SpawnAnt();};
+        for (int i = 1; i < antNumber + 1; i++)
+        {
+            ant.transform.eulerAngles = new Vector3(
+            ant.transform.eulerAngles.x,
+            ant.transform.eulerAngles.y,
+            ant.transform.eulerAngles.z + 360 / antNumber
+    );
+            SpawnAnt();
+        };
     }
 
     void SpawnAnt()
@@ -44,7 +46,7 @@ public class Nest : MonoBehaviour
         ant.AddComponent<Rigidbody2D>();
         ant.GetComponent<Rigidbody2D>().gravityScale = 0f;
         ant.layer = 6;
-        
+
         //dodawanie komponentow dotyczacych stanow
         ant.AddComponent<AntStateSearch>();
         ant.GetComponent<AntStateSearch>().pointObject = toNestPoint;
@@ -71,7 +73,7 @@ public class Nest : MonoBehaviour
         CircleCollider2D[] sensors = new CircleCollider2D[3]{leftSensor.GetComponent<CircleCollider2D>(),
                                                             middleSensor.GetComponent<CircleCollider2D>(),
                                                             rightSensor.GetComponent<CircleCollider2D>()};
-        foreach(var sensor in sensors)
+        foreach (var sensor in sensors)
         {
             sensor.GetComponent<Sensor>().antScript = ant.GetComponent<Ant>();
             sensor.radius = 0.1f;
@@ -81,7 +83,7 @@ public class Nest : MonoBehaviour
         sensors[0].gameObject.transform.position += new Vector3(-0.2f, 0f, 0f);
         sensors[2].gameObject.transform.position += new Vector3(0.2f, 0f, 0f);
 
-        ant.GetComponent<Ant>().sensors = new GameObject[3]{leftSensor, middleSensor, rightSensor};
+        ant.GetComponent<Ant>().sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
     }
     void CreateToFoodPointGameObject()
     {
@@ -95,7 +97,7 @@ public class Nest : MonoBehaviour
         Sprite toFoodPointSprite = Sprite.Create(toFoodPointTexture, new Rect(0f, 0f, toFoodPointTexture.width, toFoodPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
         toFoodPoint.GetComponent<SpriteRenderer>().sprite = toFoodPointSprite;
         toFoodPoint.GetComponent<SpriteRenderer>().color = Color.yellow;
-        
+
         toFoodPoint.SetActive(false);
     }
 
