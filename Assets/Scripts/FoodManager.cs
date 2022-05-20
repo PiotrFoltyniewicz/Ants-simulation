@@ -27,7 +27,6 @@ public class FoodManager : MonoBehaviour
     void SpawnFood(Vector2 position)
     {
         GameObject temp = Instantiate(food, position, Quaternion.identity);
-        temp.AddComponent<Food>();
         temp.SetActive(true);
     }
 

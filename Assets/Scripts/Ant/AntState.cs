@@ -14,7 +14,7 @@ public abstract class AntState : MonoBehaviour
     }
 
     // funkcja ktora ma implementacje w klasach dziedziczacych, odpowiada za obrot mrowki
-    public abstract void Turn(float turnAngle = 0, Transform target = null);
+    public abstract void Turn(float turnAngle, Transform target);
 
     // funkcja ktora ma implementacje w klasach dziedziczacych, odpowiada za pozostawienie punktu
     public abstract void LeavePoint(Vector2 position);

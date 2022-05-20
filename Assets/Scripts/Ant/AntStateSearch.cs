@@ -5,7 +5,7 @@ using UnityEngine;
 public class AntStateSearch : AntState
 {
     // obrot mrowki 
-    public override void Turn(float turnAngle = 0, Transform target = null)
+    public override void Turn(float turnAngle, Transform target)
     {
         Vector2 desiredPos = (Vector2)(transform.position + transform.right) + (Random.insideUnitCircle * turnAngle);
         float angle = Mathf.Atan2(desiredPos.y - transform.position.y, desiredPos.x - transform.position.x) * Mathf.Rad2Deg;
@@ -15,7 +15,7 @@ public class AntStateSearch : AntState
     // pozostawienie punktu
     public override void LeavePoint(Vector2 position)
     {
-        GameObject temp = Instantiate(pointObject, position, Quaternion.identity, null);
+        GameObject temp = Instantiate(pointObject,position, Quaternion.identity, null);
         temp.SetActive(true);
     }
 

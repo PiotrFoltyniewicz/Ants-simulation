@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
-    Transform moveTarget; // cel nastepnego kroku
+    public Transform moveTarget = null; // cel nastepnego kroku
     public static float movementSpeed = 0.6f; //maksymalna predkosc
     public static float maxTurnStrength = 0.2f; // maksymalna sila skretu
     public static float stepTime = 0.2f; // czas pomiedzy krokami
@@ -43,7 +43,7 @@ public class Ant : MonoBehaviour
         if (stepTimeLeft < 0)
         {
             stepTimeLeft = stepTime;
-            antState.Turn(maxTurnStrength);
+            antState.Turn(maxTurnStrength, moveTarget);
         }
 
         antState.Move();
@@ -71,19 +71,27 @@ public class Ant : MonoBehaviour
                 currentState = 2;
                 break;
         }
-        foreach (var sensor in sensors)
+        foreach(var sensor in sensors)
         {
             Sensor sensorScript = sensor.GetComponent<Sensor>();
             sensorScript.currentState = currentState;
             sensorScript.insideSensorList.Clear();
             sensorScript.sensorStrength = 0f;
-            if (currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
+            if(currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
             else sensorScript.pointTag = "ToNestPoint";
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    private void OnCollisionEnter2D(Collision2D coll) 
     {
+        // jezeli dotknie jedzenia, ale nie trzyma jedzenia
+        if(coll.gameObject.tag == "Food" && currentState != 1)
+        {
+            coll.gameObject.GetComponent<Food>().TakeFood();
+            ChangeState(2);
+            transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.z + 180f);
+            moveTarget = null;
+        }
         float bounce = transform.eulerAngles.z;
         //odbicie mrowki od sciany
         transform.rotation = Quaternion.Euler(0, 0, bounce + Random.Range(150, 210));
