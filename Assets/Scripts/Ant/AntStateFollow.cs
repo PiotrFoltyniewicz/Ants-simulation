@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AntStateFollow : AntState
 {
-    public override void Turn(float turnAngle)
+    public override void Turn(float turnAngle = 0, Transform target = null)
     {
 
     }

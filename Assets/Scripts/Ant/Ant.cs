@@ -5,8 +5,9 @@ using UnityEngine;
 public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
+    Transform moveTarget; // cel nastepnego kroku
     public static float movementSpeed = 0.6f; //maksymalna predkosc
-    public static float maxTurnAngle = 10f; // maksymalna sila skretu
+    public static float maxTurnStrength = 0.2f; // maksymalna sila skretu
     public static float stepTime = 0.2f; // czas pomiedzy krokami
 
     public static float leavePointTime = 0.5f;
@@ -17,11 +18,11 @@ public class Ant : MonoBehaviour
     float stepTimeLeft = 0f; // czas pozostaly do nastepnego kroku
     int currentState; // obecny stan w postaci cyfry
     AntState[] states;
-     
+
     void Awake()
     {
         // dodanie komponentow stanow mrowki do obiektu
-        states = new AntState[3]{ gameObject.GetComponent<AntStateSearch>(), gameObject.GetComponent<AntStateFollow>(), gameObject.GetComponent<AntStateReturn>() };
+        states = new AntState[3] { gameObject.GetComponent<AntStateSearch>(), gameObject.GetComponent<AntStateFollow>(), gameObject.GetComponent<AntStateReturn>() };
     }
 
     void Start()
@@ -34,27 +35,21 @@ public class Ant : MonoBehaviour
         // jezeli nadszedl czas zrobienia kroku to obrot mrowki i ruch
         stepTimeLeft -= Time.deltaTime;
         leavePointTimeLeft -= Time.deltaTime;
-        if(leavePointTimeLeft < 0 )
+        if (leavePointTimeLeft < 0)
         {
             leavePointTimeLeft = leavePointTime;
             antState.LeavePoint(transform.position);
         }
-        if(stepTimeLeft < 0)
+        if (stepTimeLeft < 0)
         {
             stepTimeLeft = stepTime;
-            antState.Turn(maxTurnAngle);
+            antState.Turn(maxTurnStrength);
         }
 
         antState.Move();
 
-        
-    }
 
-    void CheckSensors()
-    {
-        
     }
-
     // zmiana stanu mrowki
     public void ChangeState(int stateNum)
     {
@@ -76,18 +71,19 @@ public class Ant : MonoBehaviour
                 currentState = 2;
                 break;
         }
-        foreach(var sensor in sensors)
+        foreach (var sensor in sensors)
         {
             Sensor sensorScript = sensor.GetComponent<Sensor>();
             sensorScript.currentState = currentState;
             sensorScript.insideSensorList.Clear();
             sensorScript.sensorStrength = 0f;
-            if(currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
+            if (currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
             else sensorScript.pointTag = "ToNestPoint";
         }
     }
-    
-    private void OnCollisionEnter2D(Collision2D coll) {
+
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
         float bounce = transform.eulerAngles.z;
         //odbicie mrowki od sciany
         transform.rotation = Quaternion.Euler(0, 0, bounce + Random.Range(150, 210));
