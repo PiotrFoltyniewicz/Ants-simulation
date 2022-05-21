@@ -5,3 +5,5 @@ I had exactly the same problem of "bad circles" to avoid this ants have a limite
 (which is recharged when they encounter home or food) so wandering ants have no impact on other after a certain time.
 
 TO MOZE TEZ POMOC Z LAGAMI
+
+dodaæ ¿e jak znajdzie jedzenie albo gniazdo to idzie idealnie do tego

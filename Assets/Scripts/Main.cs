@@ -7,6 +7,7 @@ public class Main : MonoBehaviour
     GameObject nest; // zmienna przechowujaca obiekt mrowiska
     private void Awake()
     {
+        Time.timeScale = 2f;
         gameObject.AddComponent<FoodManager>();
         CreateNestGameObject();
         CreateBoundaryColliders();
@@ -18,6 +19,8 @@ public class Main : MonoBehaviour
         nest = new GameObject();
         nest.AddComponent<SpriteRenderer>();
         nest.AddComponent<Nest>();
+        nest.AddComponent<CircleCollider2D>().isTrigger = true;
+        nest.GetComponent<CircleCollider2D>().radius = 0.5f;
         nest.name = "Nest";
         nest.tag = "Nest";
         // dodawanie tekstur do mrówki
@@ -26,7 +29,7 @@ public class Main : MonoBehaviour
         nest.GetComponent<SpriteRenderer>().sprite = nestSprite;
         nest.GetComponent<SpriteRenderer>().color = Color.blue;
         // pozycjonowanie gniazda w losowym miejscu
-        nest.transform.position = new Vector2(Random.Range(-8,8), Random.Range(-4,4));
+        nest.transform.position = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
 
     }
     void CreateBoundaryColliders()

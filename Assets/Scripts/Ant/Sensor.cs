@@ -8,15 +8,18 @@ public class Sensor : MonoBehaviour
     public int currentState;
     public string pointTag;
     public List<GameObject> insideSensorList = new List<GameObject>();
-    public float sensorStrength;
+    public float sensorStrength = 0f;
 
-    private void OnTriggerEnter2D(Collider2D collider) 
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        sensorStrength = 0f;
-        if(collider.tag == "Food") FoundFood(collider.transform);
+        if (collider.tag == "Food" && currentState != 2) FoundFood(collider.transform);
+        else if (collider.tag == "Nest" && currentState == 2) FoundNest(collider.transform);
         else if (collider.tag == pointTag)
         {
-            insideSensorList.Add(collider.gameObject);
+            if (currentState == 0 && collider.tag == "ToFoodPoint") antScript.ChangeState(1);
+            if ((Vector2.Distance(antScript.transform.position, antScript.nest.position) > collider.GetComponent<Point>().distanceToNest && pointTag == "ToNestPoint")
+            || (Vector2.Distance(antScript.transform.position, antScript.nest.position) < collider.GetComponent<Point>().distanceToNest && pointTag == "ToFoodPoint"))
+                insideSensorList.Add(collider.gameObject);
         }
     }
 
@@ -27,24 +30,24 @@ public class Sensor : MonoBehaviour
 
     void FoundFood(Transform food)
     {
-        Debug.Log("Znaleziono jedzenie");
         antScript.ChangeState(1);
         antScript.moveTarget = food;
+        antScript.finalTarget = true;
+    }
+    void FoundNest(Transform nest)
+    {
+        antScript.moveTarget = nest;
+        antScript.finalTarget = true;
     }
 
-    void CalculateSensorStrength()
+    public void CalculateSensorStrength()
     {
-        foreach(var point in insideSensorList)
+        sensorStrength = 0f;
+        foreach (var point in insideSensorList)
         {
             Point pointScript = point.GetComponent<Point>();
-            try
-            {
-                sensorStrength += pointScript.pointTimeLeft / pointScript.distanceToNest;
-            }
-            catch
-            {
-                sensorStrength += pointScript.pointTimeLeft;
-            }
+            sensorStrength += pointScript.pointStrength;
+
         }
     }
 }

@@ -36,6 +36,7 @@ public class FoodManager : MonoBehaviour
         food = new GameObject();
         food.SetActive(false);
         food.AddComponent<SpriteRenderer>();
+        food.AddComponent<Food>();
         food.AddComponent<CircleCollider2D>().isTrigger = true;
         food.GetComponent<CircleCollider2D>().radius = 0.06f;
         food.name = "Food";

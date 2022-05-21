@@ -12,13 +12,14 @@ public class ToNestPoint : Point
     void Start()
     {
         distanceToNest = FindDistanceToNest();
-        pointTimeLeft = pointTime;
+        pointTimeLeft = pointTime / (distanceToNest / 4);
+        pointStrength = 1 / distanceToNest;
         SetStartingValues();
     }
-        void FixedUpdate()
+    void FixedUpdate()
     {
         pointTimeLeft -= Time.fixedDeltaTime;
-        if(pointTimeLeft < 0)
+        if (pointTimeLeft < 0)
         {
             Disappear();
         }

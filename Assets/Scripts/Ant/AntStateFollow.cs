@@ -8,7 +8,7 @@ public class AntStateFollow : AntState
     {
         Vector2 desiredPos = (Vector2)target.position + (Random.insideUnitCircle * turnAngle);
         float angle = Mathf.Atan2(desiredPos.y - transform.position.y, desiredPos.x - transform.position.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle -90f);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 
     // pozostawienie punktu

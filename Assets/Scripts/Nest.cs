@@ -35,6 +35,15 @@ public class Nest : MonoBehaviour
         Instantiate(ant, transform).SetActive(true);
     }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Ant")
+        {
+            if (collider.GetComponent<Ant>().currentState != 2) return;
+            collider.GetComponent<Ant>().TouchedNest();
+        }
+    }
+
     void CreateAntGameObject()
     {
         // tworzenie GameObject mrowki i inne
@@ -76,14 +85,15 @@ public class Nest : MonoBehaviour
         foreach (var sensor in sensors)
         {
             sensor.GetComponent<Sensor>().antScript = ant.GetComponent<Ant>();
-            sensor.radius = 0.1f;
+            sensor.radius = 0.15f;
             sensor.isTrigger = true;
             sensor.gameObject.transform.position += new Vector3(0f, 0.3f, 0f);
         }
-        sensors[0].gameObject.transform.position += new Vector3(-0.2f, 0f, 0f);
-        sensors[2].gameObject.transform.position += new Vector3(0.2f, 0f, 0f);
+        sensors[0].gameObject.transform.position += new Vector3(-0.3f, 0f, 0f);
+        sensors[2].gameObject.transform.position += new Vector3(0.3f, 0f, 0f);
 
         ant.GetComponent<Ant>().sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
+        ant.GetComponent<Ant>().nest = transform;
     }
     void CreateToFoodPointGameObject()
     {
@@ -92,6 +102,7 @@ public class Nest : MonoBehaviour
         toFoodPoint.AddComponent<ToFoodPoint>();
         toFoodPoint.name = "ToFoodPoint";
         toFoodPoint.tag = "ToFoodPoint";
+        toFoodPoint.layer = 7;
         // dodawanie tekstur do mrówki
         Texture2D toFoodPointTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite toFoodPointSprite = Sprite.Create(toFoodPointTexture, new Rect(0f, 0f, toFoodPointTexture.width, toFoodPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
@@ -110,6 +121,7 @@ public class Nest : MonoBehaviour
         toNestPoint.GetComponent<CircleCollider2D>().radius = 0.015f;
         toNestPoint.name = "ToNestPoint";
         toNestPoint.tag = "ToNestPoint";
+        toFoodPoint.layer = 7;
         // dodawanie tekstur do mrówki
         Texture2D toNestPointTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite toNestPointSprite = Sprite.Create(toNestPointTexture, new Rect(0f, 0f, toNestPointTexture.width, toNestPointTexture.height), new Vector2(0.5f, 0.5f), 8192);

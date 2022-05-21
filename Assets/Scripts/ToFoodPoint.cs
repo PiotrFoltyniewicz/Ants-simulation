@@ -12,17 +12,18 @@ public class ToFoodPoint : Point
     void Start()
     {
         distanceToNest = FindDistanceToNest();
-        pointTimeLeft = pointTime;
+        pointTimeLeft = pointTime * (distanceToNest / 2);
+        pointStrength = distanceToNest;
         SetStartingValues();
     }
-    void Update()
+    void FixedUpdate()
     {
-        pointTimeLeft -= Time.deltaTime;
-        if(pointTimeLeft < 0)
+        pointTimeLeft -= Time.fixedDeltaTime;
+        if (pointTimeLeft < 0)
         {
             Disappear();
         }
-    //   spriteRenderer.color -= new Color(0f, 0f, 0f, 0.01f);
+        spriteRenderer.color -= new Color(0f, 0f, 0f, fade);
     }
     protected override float FindDistanceToNest()
     {
