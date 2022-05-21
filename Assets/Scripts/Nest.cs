@@ -39,6 +39,7 @@ public class Nest : MonoBehaviour
     {
         if (collider.tag == "Ant")
         {
+            collider.GetComponent<Ant>().RestorePoints();
             if (collider.GetComponent<Ant>().currentState != 2) return;
             collider.GetComponent<Ant>().TouchedNest();
         }
@@ -85,12 +86,12 @@ public class Nest : MonoBehaviour
         foreach (var sensor in sensors)
         {
             sensor.GetComponent<Sensor>().antScript = ant.GetComponent<Ant>();
-            sensor.radius = 0.15f;
+            sensor.radius = 0.1f;
             sensor.isTrigger = true;
-            sensor.gameObject.transform.position += new Vector3(0f, 0.3f, 0f);
+            sensor.gameObject.transform.position += new Vector3(0f, 0.4f, 0f);
         }
-        sensors[0].gameObject.transform.position += new Vector3(-0.3f, 0f, 0f);
-        sensors[2].gameObject.transform.position += new Vector3(0.3f, 0f, 0f);
+        sensors[0].gameObject.transform.position += new Vector3(-0.2f, -0.15f, 0f);
+        sensors[2].gameObject.transform.position += new Vector3(0.2f, -0.15f, 0f);
 
         ant.GetComponent<Ant>().sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
         ant.GetComponent<Ant>().nest = transform;
@@ -100,6 +101,8 @@ public class Nest : MonoBehaviour
         toFoodPoint = new GameObject();
         toFoodPoint.AddComponent<SpriteRenderer>();
         toFoodPoint.AddComponent<ToFoodPoint>();
+        toFoodPoint.AddComponent<CircleCollider2D>().isTrigger = true;
+        toFoodPoint.GetComponent<CircleCollider2D>().radius = 0.015f;
         toFoodPoint.name = "ToFoodPoint";
         toFoodPoint.tag = "ToFoodPoint";
         toFoodPoint.layer = 7;

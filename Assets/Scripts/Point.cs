@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    protected float pointTime = 20f; // czas jak dlugo punkt sie utrzymuje
+    protected float pointTime = 30f; // czas jak dlugo punkt sie utrzymuje
     public float pointStrength;
     public float pointTimeLeft; // pozostaly czas do znikniecia
-    public float distanceToNest; // odleglosc od mrowiska
+    public float distanceToSource; // odleglosc od mrowiska
     protected float fade; // obliczona wartosc jak mocno o klatke ma malec sila punktu
+    public Transform source;
 
     protected void SetStartingValues()
     {
         fade = Time.fixedDeltaTime / pointTimeLeft;
     }
 
-    protected virtual float FindDistanceToNest()
+    protected virtual float FindDistanceToSource(Transform source)
     {
-        return Vector2.Distance(transform.position, GameObject.Find("Nest").transform.position);
+        return Vector2.Distance(transform.position, source.position);
     }
 
     // funkcja odpowiadajaca za usuniecie punktu

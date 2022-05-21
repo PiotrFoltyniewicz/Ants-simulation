@@ -20,6 +20,7 @@ public class Ant : MonoBehaviour
     public int currentState; // obecny stan w postaci cyfry
     AntState[] states;
     public Transform nest;
+    public Transform pickedFoodPosition;
 
     void Awake()
     {
@@ -41,7 +42,14 @@ public class Ant : MonoBehaviour
         if (leavePointTimeLeft < 0 && remainingPoints > 0)
         {
             leavePointTimeLeft = leavePointTime;
-            antState.LeavePoint(transform.position);
+            if(currentState == 2)
+            {
+                antState.LeavePoint(transform.position, pickedFoodPosition);
+            }
+            else
+            {
+                antState.LeavePoint(transform.position, nest);
+            }
             remainingPoints--;
         }
         if (stepTimeLeft < 0)
@@ -59,11 +67,20 @@ public class Ant : MonoBehaviour
     // zmiana stanu mrowki
     public void ChangeState(int stateNum)
     {
+        if(currentState != stateNum)
+        foreach (var sensor in sensors)
+        {
+            Sensor sensorScript = sensor.GetComponent<Sensor>();
+            sensorScript.currentState = stateNum;
+            sensorScript.insideSensorList.Clear();
+            sensorScript.sensorStrength = 0f;
+            if (stateNum == 0 || stateNum == 1) sensorScript.pointTag = "ToFoodPoint";
+            else sensorScript.pointTag = "ToNestPoint";
+        }
         switch (stateNum)
         {
             // stan szukania sladow/jedzenia
             case 0:
-                remainingPoints = maxNumOfPoints;
                 antState = states[0];
                 currentState = 0;
                 break;
@@ -74,20 +91,11 @@ public class Ant : MonoBehaviour
                 break;
             // stan wracania z jedzeniem do mrowiska
             case 2:
-                remainingPoints = maxNumOfPoints;
                 antState = states[2];
                 currentState = 2;
                 break;
         }
-        foreach (var sensor in sensors)
-        {
-            Sensor sensorScript = sensor.GetComponent<Sensor>();
-            sensorScript.currentState = currentState;
-            sensorScript.insideSensorList.Clear();
-            sensorScript.sensorStrength = 0f;
-            if (currentState == 0 || currentState == 1) sensorScript.pointTag = "ToFoodPoint";
-            else sensorScript.pointTag = "ToNestPoint";
-        }
+        
     }
     Transform CheckSensors()
     {
@@ -101,15 +109,17 @@ public class Ant : MonoBehaviour
             Sensor sensorScript = sensor.GetComponent<Sensor>();
             if (sensorScript.sensorStrength > chosen.GetComponent<Sensor>().sensorStrength) chosen = sensor.transform;
         }
-        //  Debug.Log(chosen.name);
-        // Debug.Log(sensors[0].name + "  " + sensors[0].GetComponent<Sensor>().sensorStrength);
-        // Debug.Log(sensors[1].name + "  " + sensors[1].GetComponent<Sensor>().sensorStrength);
-        // Debug.Log(sensors[2].name + "  " + sensors[2].GetComponent<Sensor>().sensorStrength);
+        //Debug.Log(chosen.name);
+        //Debug.Log(sensors[0].name + "  " + sensors[0].GetComponent<Sensor>().sensorStrength);
+       // Debug.Log(sensors[1].name + "  " + sensors[1].GetComponent<Sensor>().sensorStrength);
+       // Debug.Log(sensors[2].name + "  " + sensors[2].GetComponent<Sensor>().sensorStrength);
         return chosen;
     }
-    public void TouchedFood()
+    public void TouchedFood(Transform foodPos)
     {
         ChangeState(2);
+        pickedFoodPosition = foodPos;
+        RestorePoints();
         float angle = Mathf.Atan2(nest.position.y - transform.position.y, nest.position.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
         moveTarget = null;
@@ -119,9 +129,16 @@ public class Ant : MonoBehaviour
     public void TouchedNest()
     {
         ChangeState(1);
-        transform.rotation = Quaternion.Euler(0f, 0f, transform.eulerAngles.z + 180f);
+        RestorePoints();
+        float angle = Mathf.Atan2(pickedFoodPosition.position.y - transform.position.y, pickedFoodPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
         moveTarget = null;
         finalTarget = false;
+    }
+
+    public void RestorePoints()
+    {
+        remainingPoints = maxNumOfPoints;
     }
 
     private void OnCollisionEnter2D(Collision2D coll)

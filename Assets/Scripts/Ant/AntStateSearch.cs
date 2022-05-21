@@ -13,9 +13,10 @@ public class AntStateSearch : AntState
     }
 
     // pozostawienie punktu
-    public override void LeavePoint(Vector2 position)
+    public override void LeavePoint(Vector2 position, Transform source)
     {
         GameObject temp = Instantiate(pointObject,position, Quaternion.identity, null);
+        temp.GetComponent<Point>().source = source;
         temp.SetActive(true);
     }
 

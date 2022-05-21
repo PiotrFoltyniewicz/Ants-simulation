@@ -6,7 +6,7 @@ public class Sensor : MonoBehaviour
 {
     public Ant antScript;
     public int currentState;
-    public string pointTag;
+    public string pointTag = "ToFoodPoint";
     public List<GameObject> insideSensorList = new List<GameObject>();
     public float sensorStrength = 0f;
 
@@ -14,15 +14,19 @@ public class Sensor : MonoBehaviour
     {
         if (collider.tag == "Food" && currentState != 2) FoundFood(collider.transform);
         else if (collider.tag == "Nest" && currentState == 2) FoundNest(collider.transform);
-        else if (collider.tag == pointTag)
+        if (collider.tag == pointTag)
         {
             if (currentState == 0 && collider.tag == "ToFoodPoint") antScript.ChangeState(1);
-            if ((Vector2.Distance(antScript.transform.position, antScript.nest.position) > collider.GetComponent<Point>().distanceToNest && pointTag == "ToNestPoint")
-            || (Vector2.Distance(antScript.transform.position, antScript.nest.position) < collider.GetComponent<Point>().distanceToNest && pointTag == "ToFoodPoint"))
-                insideSensorList.Add(collider.gameObject);
+
+            if (currentState == 1 && Vector2.Distance(transform.position, antScript.nest.position) > Vector2.Distance(collider.transform.position, GameObject.Find("Nest").transform.position))
+            {
+                antScript.moveTarget = collider.transform;
+                return;
+            }
+            if (currentState == 2 && Vector2.Distance(transform.position, antScript.nest.position) < Vector2.Distance(collider.transform.position, GameObject.Find("Nest").transform.position)) return;
+            insideSensorList.Add(collider.gameObject);
         }
     }
-
     void OnTriggerExit2D(Collider2D collider)
     {
         insideSensorList.Remove(collider.gameObject);

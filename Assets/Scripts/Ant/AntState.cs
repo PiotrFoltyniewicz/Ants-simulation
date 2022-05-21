@@ -17,6 +17,6 @@ public abstract class AntState : MonoBehaviour
     public abstract void Turn(float turnAngle, Transform target);
 
     // funkcja ktora ma implementacje w klasach dziedziczacych, odpowiada za pozostawienie punktu
-    public abstract void LeavePoint(Vector2 position);
+    public abstract void LeavePoint(Vector2 position, Transform source);
 
 }

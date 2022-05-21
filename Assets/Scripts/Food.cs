@@ -11,7 +11,7 @@ public class Food : MonoBehaviour
         foodAmount--;
         if (foodAmount <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -20,7 +20,7 @@ public class Food : MonoBehaviour
         if (collider.tag == "Ant")
         {
             if (collider.GetComponent<Ant>().currentState == 2) return;
-            collider.GetComponent<Ant>().TouchedFood();
+            collider.GetComponent<Ant>().TouchedFood(transform);
             TakeFood();
         }
     }

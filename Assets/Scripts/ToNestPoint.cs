@@ -11,9 +11,9 @@ public class ToNestPoint : Point
     }
     void Start()
     {
-        distanceToNest = FindDistanceToNest();
-        pointTimeLeft = pointTime / (distanceToNest / 4);
-        pointStrength = 1 / distanceToNest;
+        distanceToSource = FindDistanceToSource(source);
+        pointTimeLeft = pointTime;
+        pointStrength = 1/distanceToSource;
         SetStartingValues();
     }
     void FixedUpdate()
@@ -25,8 +25,8 @@ public class ToNestPoint : Point
         }
         spriteRenderer.color -= new Color(0f, 0f, 0f, fade);
     }
-    protected override float FindDistanceToNest()
+    protected override float FindDistanceToSource(Transform source)
     {
-        return Vector2.Distance(transform.position, GameObject.Find("Nest").transform.position);
+        return Vector2.Distance(transform.position, source.transform.position);
     }
 }
