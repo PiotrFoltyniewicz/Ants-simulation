@@ -7,8 +7,9 @@ public class Nest : MonoBehaviour
     GameObject ant; // GameObject mrowki
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
-
-    float antNumber = 50; //liczba mrówek
+    public static List<Transform> toNestList = new List<Transform>();
+    public static List<Transform> toFoodList = new List<Transform>();
+    int antNumber = 100; //liczba mrówek
     private void Awake()
     {
         CreateToFoodPointGameObject();
@@ -17,17 +18,14 @@ public class Nest : MonoBehaviour
     }
     void Start()
     {
-        // dodac kod aby wszystkie mrowki rozeszly sie w kolku,
-        // obliczyc rotacje i dac jako parametr funkcji
-        for (int i = 1; i < antNumber + 1; i++)
+        for(int i = 0; i < antNumber; i++)
         {
             ant.transform.eulerAngles = new Vector3(
             ant.transform.eulerAngles.x,
             ant.transform.eulerAngles.y,
-            ant.transform.eulerAngles.z + 360 / antNumber
-    );
-            SpawnAnt();
-        };
+            ant.transform.eulerAngles.z + 360 / (float)antNumber);
+        SpawnAnt();
+        }
     }
 
     void SpawnAnt()
@@ -74,26 +72,23 @@ public class Nest : MonoBehaviour
         ant.GetComponent<SpriteRenderer>().sprite = antSprite;
 
         // dodawanie i konfiguracja czujnikow
-        GameObject leftSensor = new GameObject("LeftSensor", typeof(CircleCollider2D), typeof(Sensor));
-        GameObject middleSensor = new GameObject("MiddleSensor", typeof(CircleCollider2D), typeof(Sensor));
-        GameObject rightSensor = new GameObject("RightSensor", typeof(CircleCollider2D), typeof(Sensor));
+        GameObject leftSensor = new GameObject("LeftSensor", typeof(Sensor));
+        GameObject middleSensor = new GameObject("MiddleSensor", typeof(Sensor));
+        GameObject rightSensor = new GameObject("RightSensor", typeof(Sensor));
+        GameObject[] sensors = new GameObject[3]{leftSensor, middleSensor, rightSensor};
         leftSensor.transform.parent = ant.transform;
         middleSensor.transform.parent = ant.transform;
         rightSensor.transform.parent = ant.transform;
-        CircleCollider2D[] sensors = new CircleCollider2D[3]{leftSensor.GetComponent<CircleCollider2D>(),
-                                                            middleSensor.GetComponent<CircleCollider2D>(),
-                                                            rightSensor.GetComponent<CircleCollider2D>()};
+
         foreach (var sensor in sensors)
         {
             sensor.GetComponent<Sensor>().antScript = ant.GetComponent<Ant>();
-            sensor.radius = 0.1f;
-            sensor.isTrigger = true;
-            sensor.gameObject.transform.position += new Vector3(0f, 0.4f, 0f);
+            sensor.transform.position += new Vector3(0f, 0.4f, 0f);
         }
-        sensors[0].gameObject.transform.position += new Vector3(-0.2f, -0.15f, 0f);
-        sensors[2].gameObject.transform.position += new Vector3(0.2f, -0.15f, 0f);
+        sensors[0].transform.position += new Vector3(-0.2f, -0.15f, 0f);
+        sensors[2].transform.position += new Vector3(0.2f, -0.15f, 0f);
 
-        ant.GetComponent<Ant>().sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
+        ant.GetComponent<Ant>().sensors = sensors;
         ant.GetComponent<Ant>().nest = transform;
     }
     void CreateToFoodPointGameObject()
@@ -101,8 +96,6 @@ public class Nest : MonoBehaviour
         toFoodPoint = new GameObject();
         toFoodPoint.AddComponent<SpriteRenderer>();
         toFoodPoint.AddComponent<ToFoodPoint>();
-        toFoodPoint.AddComponent<CircleCollider2D>().isTrigger = true;
-        toFoodPoint.GetComponent<CircleCollider2D>().radius = 0.015f;
         toFoodPoint.name = "ToFoodPoint";
         toFoodPoint.tag = "ToFoodPoint";
         toFoodPoint.layer = 7;
@@ -120,8 +113,6 @@ public class Nest : MonoBehaviour
         toNestPoint = new GameObject();
         toNestPoint.AddComponent<SpriteRenderer>();
         toNestPoint.AddComponent<ToNestPoint>();
-        toNestPoint.AddComponent<CircleCollider2D>().isTrigger = true;
-        toNestPoint.GetComponent<CircleCollider2D>().radius = 0.015f;
         toNestPoint.name = "ToNestPoint";
         toNestPoint.tag = "ToNestPoint";
         toFoodPoint.layer = 7;

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Point : MonoBehaviour
+public abstract class Point : MonoBehaviour
 {
-    protected float pointTime = 30f; // czas jak dlugo punkt sie utrzymuje
+    protected float pointTime = 25f; // czas jak dlugo punkt sie utrzymuje
     public float pointStrength;
     public float pointTimeLeft; // pozostaly czas do znikniecia
     public float distanceToSource; // odleglosc od mrowiska
@@ -22,8 +22,5 @@ public class Point : MonoBehaviour
     }
 
     // funkcja odpowiadajaca za usuniecie punktu
-    protected void Disappear()
-    {
-        Destroy(gameObject);
-    }
+    protected abstract void Disappear();
 }

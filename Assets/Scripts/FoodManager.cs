@@ -5,7 +5,7 @@ using UnityEngine;
 public class FoodManager : MonoBehaviour
 {
     int foodAmount = 50;
-    float foodSpawnRadius = 0.5f;
+    float foodSpawnRadius = 1f;
     GameObject food; // GameObject jedzenia
     Transform foodPoint; // Punkt centrum spawnu jedzenia
     void Awake()

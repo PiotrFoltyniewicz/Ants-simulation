@@ -29,4 +29,10 @@ public class ToFoodPoint : Point
     {
         return Vector2.Distance(transform.position, source.transform.position);
     }
+
+    protected override void Disappear()
+    {
+        Nest.toFoodList.Remove(transform);
+        Destroy(gameObject);
+    }
 }

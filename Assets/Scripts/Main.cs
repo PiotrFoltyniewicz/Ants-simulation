@@ -7,7 +7,7 @@ public class Main : MonoBehaviour
     GameObject nest; // zmienna przechowujaca obiekt mrowiska
     private void Awake()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 2f;
         gameObject.AddComponent<FoodManager>();
         CreateNestGameObject();
         CreateBoundaryColliders();

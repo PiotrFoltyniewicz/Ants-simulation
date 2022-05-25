@@ -11,7 +11,7 @@ public class Ant : MonoBehaviour
     public static float maxTurnStrength = 0.2f; // maksymalna sila skretu
     public static float stepTime = 0.2f; // czas pomiedzy krokami
     public static float leavePointTime = 0.3f;
-    public static int maxNumOfPoints = 50;
+    public static int maxNumOfPoints = 25;
     public bool finalTarget = false;
     int remainingPoints;
     public GameObject[] sensors;
@@ -59,6 +59,7 @@ public class Ant : MonoBehaviour
             else
             {
                 moveTarget = CheckSensors();
+                if(Vector2.Distance(transform.position,nest.position) <= 1 && currentState == 2) moveTarget = nest;
                 antState.Turn(maxTurnStrength, moveTarget);
             }
         }
@@ -109,10 +110,6 @@ public class Ant : MonoBehaviour
             Sensor sensorScript = sensor.GetComponent<Sensor>();
             if (sensorScript.sensorStrength > chosen.GetComponent<Sensor>().sensorStrength) chosen = sensor.transform;
         }
-        //Debug.Log(chosen.name);
-        //Debug.Log(sensors[0].name + "  " + sensors[0].GetComponent<Sensor>().sensorStrength);
-       // Debug.Log(sensors[1].name + "  " + sensors[1].GetComponent<Sensor>().sensorStrength);
-       // Debug.Log(sensors[2].name + "  " + sensors[2].GetComponent<Sensor>().sensorStrength);
         return chosen;
     }
     public void TouchedFood(Transform foodPos)

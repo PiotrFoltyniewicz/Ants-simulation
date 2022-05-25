@@ -17,6 +17,7 @@ public class AntStateSearch : AntState
     {
         GameObject temp = Instantiate(pointObject,position, Quaternion.identity, null);
         temp.GetComponent<Point>().source = source;
+        Nest.toNestList.Add(temp.transform);
         temp.SetActive(true);
     }
 

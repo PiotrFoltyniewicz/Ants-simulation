@@ -7,31 +7,72 @@ public class Sensor : MonoBehaviour
     public Ant antScript;
     public int currentState;
     public string pointTag = "ToFoodPoint";
-    public List<GameObject> insideSensorList = new List<GameObject>();
     public float sensorStrength = 0f;
+    float sensorRadius = 0.1f;
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    float checkTime = 0.15f;
+    float checkTimeLeft;
+    public List<Transform> insideSensorList = new List<Transform>();
+
+    void Start()
     {
-        if (collider.tag == "Food" && currentState != 2) FoundFood(collider.transform);
-        else if (collider.tag == "Nest" && currentState == 2) FoundNest(collider.transform);
-        if (collider.tag == pointTag)
+        checkTimeLeft = checkTime;
+    }
+    void FixedUpdate()
+    {
+        checkTimeLeft -= Time.deltaTime;
+        if(checkTimeLeft <= 0)
         {
-            if (currentState == 0 && collider.tag == "ToFoodPoint") antScript.ChangeState(1);
-
-            if (currentState == 1 && Vector2.Distance(transform.position, antScript.nest.position) > Vector2.Distance(collider.transform.position, GameObject.Find("Nest").transform.position))
-            {
-                antScript.moveTarget = collider.transform;
-                return;
-            }
-            if (currentState == 2 && Vector2.Distance(transform.position, antScript.nest.position) < Vector2.Distance(collider.transform.position, GameObject.Find("Nest").transform.position)) return;
-            insideSensorList.Add(collider.gameObject);
+            Check();
+            checkTimeLeft = checkTime;
         }
     }
-    void OnTriggerExit2D(Collider2D collider)
+    void Check()
     {
-        insideSensorList.Remove(collider.gameObject);
+        if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Food").transform.position) <= sensorRadius && currentState != 2)
+        {
+            FoundFood(transform);
+        }
+        else if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Nest").transform.position) <= sensorRadius && currentState == 2)
+        {
+            FoundNest(transform);
+        }
+        else if(pointTag == "toFoodPoint")
+            foreach(var point in Nest.toFoodList)
+            {
+                if(Vector2.Distance(transform.position, point.position) <= sensorRadius)
+                {
+                    if(currentState == 0)
+                    {
+                        antScript.ChangeState(1);
+                        antScript.moveTarget = point.transform;
+                        return;
+                    }
+                    else if(Vector2.Distance(antScript.transform.position, antScript.nest.position) < Vector2.Distance(point.transform.position, antScript.nest.position))
+                    {
+                        insideSensorList.Add(point);
+                    }
+                }
+                else if (insideSensorList.Contains(point))
+                {
+                    insideSensorList.Remove(point);
+                }
+            }
+        else if (pointTag == "toNestPoint")
+        {
+            foreach(var point in Nest.toNestList)
+            {
+                if(Vector2.Distance(transform.position, point.position) <= sensorRadius && Vector2.Distance(antScript.transform.position, antScript.nest.position) > Vector2.Distance(point.transform.position, antScript.nest.position))
+                {
+                    insideSensorList.Add(point);
+                }
+                else if (insideSensorList.Contains(point))
+                {
+                    insideSensorList.Remove(point);
+                }
+            }
+        }
     }
-
     void FoundFood(Transform food)
     {
         antScript.ChangeState(1);
@@ -47,11 +88,13 @@ public class Sensor : MonoBehaviour
     public void CalculateSensorStrength()
     {
         sensorStrength = 0f;
-        foreach (var point in insideSensorList)
-        {
-            Point pointScript = point.GetComponent<Point>();
-            sensorStrength += pointScript.pointStrength;
-
-        }
+            foreach(var point in insideSensorList)
+            {
+                if(point != null && Vector2.Distance(transform.position, point.position) <= sensorRadius)
+                {
+                    Point pointScript = point.GetComponent<Point>();
+                    sensorStrength += pointScript.pointStrength;
+                }
+            }
     }
 }

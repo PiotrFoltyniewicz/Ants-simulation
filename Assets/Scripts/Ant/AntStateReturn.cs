@@ -16,6 +16,7 @@ public class AntStateReturn : AntState
     {
         GameObject temp = Instantiate(pointObject, position, Quaternion.identity, null);
         temp.GetComponent<Point>().source = source;
+        Nest.toFoodList.Add(temp.transform);
         temp.SetActive(true);
     }
 }

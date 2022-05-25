@@ -29,4 +29,9 @@ public class ToNestPoint : Point
     {
         return Vector2.Distance(transform.position, source.transform.position);
     }
+    protected override void Disappear()
+    {
+        Nest.toNestList.Remove(transform);
+        Destroy(gameObject);
+    }
 }
