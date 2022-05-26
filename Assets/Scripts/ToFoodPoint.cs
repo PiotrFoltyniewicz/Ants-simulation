@@ -14,11 +14,13 @@ public class ToFoodPoint : Point
         distanceToSource = FindDistanceToSource(source);
         pointTimeLeft = pointTime;
         pointStrength = 1/distanceToSource;
+        scale *= pointStrength;
         SetStartingValues();
     }
     void FixedUpdate()
     {
         pointTimeLeft -= Time.fixedDeltaTime;
+        pointStrength -= scale;
         if (pointTimeLeft < 0)
         {
             Disappear();

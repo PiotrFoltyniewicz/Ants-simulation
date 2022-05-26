@@ -8,7 +8,7 @@ public class Sensor : MonoBehaviour
     public int currentState;
     public string pointTag = "ToFoodPoint";
     public float sensorStrength = 0f;
-    float sensorRadius = 0.1f;
+    float sensorRadius = 0.2f;
 
     float checkTime = 0.15f;
     float checkTimeLeft;
@@ -20,24 +20,30 @@ public class Sensor : MonoBehaviour
     }
     void FixedUpdate()
     {
-        checkTimeLeft -= Time.deltaTime;
+        checkTimeLeft -= Time.fixedDeltaTime;
         if(checkTimeLeft <= 0)
         {
-            Check();
             checkTimeLeft = checkTime;
+             Check();
         }
     }
     void Check()
     {
-        if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Food").transform.position) <= sensorRadius && currentState != 2)
+        foreach(var food in FoodManager.foodList)
         {
-            FoundFood(transform);
-        }
-        else if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Nest").transform.position) <= sensorRadius && currentState == 2)
+            if(Vector2.Distance(transform.position, food.transform.position) <= sensorRadius && currentState != 2)
+            {
+                FoundFood(transform);
+                return;
+            }
+        } 
+        if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Nest").transform.position) <= sensorRadius && currentState == 2)
         {
             FoundNest(transform);
+            return;
         }
-        else if(pointTag == "toFoodPoint")
+        if(pointTag == "ToFoodPoint")
+        {
             foreach(var point in Nest.toFoodList)
             {
                 if(Vector2.Distance(transform.position, point.position) <= sensorRadius)
@@ -58,7 +64,8 @@ public class Sensor : MonoBehaviour
                     insideSensorList.Remove(point);
                 }
             }
-        else if (pointTag == "toNestPoint")
+        }
+        else if (pointTag == "ToNestPoint")
         {
             foreach(var point in Nest.toNestList)
             {

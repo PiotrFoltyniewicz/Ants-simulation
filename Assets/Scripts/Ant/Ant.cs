@@ -6,7 +6,6 @@ public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
     public Transform moveTarget = null; // cel nastepnego kroku
-    public Transform prevPosition;
     public static float movementSpeed = 1f; //maksymalna predkosc
     public static float maxTurnStrength = 0.2f; // maksymalna sila skretu
     public static float stepTime = 0.2f; // czas pomiedzy krokami

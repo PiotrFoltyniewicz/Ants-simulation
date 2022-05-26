@@ -10,10 +10,12 @@ public abstract class Point : MonoBehaviour
     public float distanceToSource; // odleglosc od mrowiska
     protected float fade; // obliczona wartosc jak mocno o klatke ma malec sila punktu
     public Transform source;
+    protected float scale;
 
     protected void SetStartingValues()
     {
         fade = Time.fixedDeltaTime / pointTimeLeft;
+        scale = fade;
     }
 
     protected virtual float FindDistanceToSource(Transform source)

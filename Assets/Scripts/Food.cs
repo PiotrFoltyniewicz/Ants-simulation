@@ -10,7 +10,8 @@ public class Food : MonoBehaviour
     {
         foodAmount--;
         if (foodAmount <= 0)
-        {
+        {   
+            FoodManager.foodList.Remove(transform);
             gameObject.SetActive(false);
         }
     }

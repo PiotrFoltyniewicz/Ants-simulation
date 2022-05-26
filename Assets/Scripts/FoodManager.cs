@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class FoodManager : MonoBehaviour
 {
-    int foodAmount = 50;
-    float foodSpawnRadius = 1f;
+    int foodAmount = 25;
+    float foodSpawnRadius = 0.5f;
     GameObject food; // GameObject jedzenia
     Transform foodPoint; // Punkt centrum spawnu jedzenia
+    int foodPointAmount = 3;
+    public static List<Transform> foodList = new List<Transform>();
     void Awake()
     {
-        CreateFoodPoint();
         CreateFoodGameObject();
     }
 
     private void Start()
-    {
-        for (int i = 0; i < foodAmount; i++)
+    {   
+        for(int i = 0; i < foodPointAmount; i++)
         {
-            Vector2 foodPos = (Vector2)foodPoint.position + (Random.insideUnitCircle * foodSpawnRadius);
-            SpawnFood(foodPos);
+            CreateFoodPoint();
+            for (int j = 0; j < foodAmount; j++)
+            {
+                Vector2 foodPos = (Vector2)foodPoint.position + (Random.insideUnitCircle * foodSpawnRadius);
+                SpawnFood(foodPos);
+            }
         }
     }
 
@@ -27,6 +32,7 @@ public class FoodManager : MonoBehaviour
     void SpawnFood(Vector2 position)
     {
         GameObject temp = Instantiate(food, position, Quaternion.identity);
+        foodList.Add(temp.transform);
         temp.SetActive(true);
     }
 
@@ -41,7 +47,7 @@ public class FoodManager : MonoBehaviour
         food.GetComponent<CircleCollider2D>().radius = 0.06f;
         food.name = "Food";
         food.tag = "Food";
-        // dodawanie tekstur do mrï¿½wki
+        // dodawanie tekstur do mrowki
         Texture2D foodTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite foodSprite = Sprite.Create(foodTexture, new Rect(0f, 0f, foodTexture.width, foodTexture.height), new Vector2(0.5f, 0.5f), 2048);
         food.GetComponent<SpriteRenderer>().sprite = foodSprite;
@@ -53,7 +59,7 @@ public class FoodManager : MonoBehaviour
     {
         foodPoint = new GameObject().transform;
         foodPoint.name = "FoodPoint";
-        foodPoint.position = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
+        foodPoint.position = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
     }
 
 }

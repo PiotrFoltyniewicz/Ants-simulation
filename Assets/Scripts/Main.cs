@@ -29,7 +29,7 @@ public class Main : MonoBehaviour
         nest.GetComponent<SpriteRenderer>().sprite = nestSprite;
         nest.GetComponent<SpriteRenderer>().color = Color.blue;
         // pozycjonowanie gniazda w losowym miejscu
-        nest.transform.position = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
+        nest.transform.position = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
 
     }
     void CreateBoundaryColliders()
