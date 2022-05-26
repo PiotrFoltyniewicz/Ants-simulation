@@ -24,14 +24,9 @@ public class Nest : MonoBehaviour
             ant.transform.eulerAngles.x,
             ant.transform.eulerAngles.y,
             ant.transform.eulerAngles.z + 360 / (float)antNumber);
-        SpawnAnt();
+            SpawnAnt();
         }
-        for(int i = 0; i < 1000; i++)
-        {
-            GameObject temp = Instantiate(toFoodPoint, new Vector3(Random.Range(-10f,10f),Random.Range(-10f,10f), 0f), Quaternion.identity);
-            temp.GetComponent<Point>().source = transform;
-            temp.SetActive(true);
-        }
+
     }
 
     void SpawnAnt()
