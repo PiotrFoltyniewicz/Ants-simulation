@@ -7,18 +7,18 @@ public class Nest : MonoBehaviour
     GameObject ant; // GameObject mrowki
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
-    public static List<Transform> toNestList = new List<Transform>();
-    public static List<Transform> toFoodList = new List<Transform>();
+    public static ObjectPooling objectPooling;
     int antNumber = 50; //liczba mrówek
     private void Awake()
     {
-        CreateToFoodPointGameObject();
-        CreateToNestPointGameObject();
+        objectPooling = gameObject.AddComponent<ObjectPooling>();
+        objectPooling.toNestPoint = CreateToNestPointGameObject();
+        objectPooling.toFoodPoint = CreateToFoodPointGameObject();
         CreateAntGameObject();
     }
     void Start()
     {
-        for(int i = 0; i < antNumber; i++)
+        for (int i = 0; i < antNumber; i++)
         {
             ant.transform.eulerAngles = new Vector3(
             ant.transform.eulerAngles.x,
@@ -76,7 +76,7 @@ public class Nest : MonoBehaviour
         GameObject leftSensor = new GameObject("LeftSensor", typeof(Sensor));
         GameObject middleSensor = new GameObject("MiddleSensor", typeof(Sensor));
         GameObject rightSensor = new GameObject("RightSensor", typeof(Sensor));
-        GameObject[] sensors = new GameObject[3]{leftSensor, middleSensor, rightSensor};
+        GameObject[] sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
         leftSensor.transform.parent = ant.transform;
         middleSensor.transform.parent = ant.transform;
         rightSensor.transform.parent = ant.transform;
@@ -92,36 +92,35 @@ public class Nest : MonoBehaviour
         ant.GetComponent<Ant>().sensors = sensors;
         ant.GetComponent<Ant>().nest = transform;
     }
-    void CreateToFoodPointGameObject()
+    GameObject CreateToFoodPointGameObject()
     {
         toFoodPoint = new GameObject();
         toFoodPoint.AddComponent<SpriteRenderer>();
         toFoodPoint.AddComponent<ToFoodPoint>();
         toFoodPoint.name = "ToFoodPoint";
         toFoodPoint.tag = "ToFoodPoint";
-        toFoodPoint.layer = 7;
         // dodawanie tekstur do mrówki
         Texture2D toFoodPointTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite toFoodPointSprite = Sprite.Create(toFoodPointTexture, new Rect(0f, 0f, toFoodPointTexture.width, toFoodPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
         toFoodPoint.GetComponent<SpriteRenderer>().sprite = toFoodPointSprite;
         toFoodPoint.GetComponent<SpriteRenderer>().color = Color.yellow;
-
         toFoodPoint.SetActive(false);
+        return toFoodPoint;
     }
 
-    void CreateToNestPointGameObject()
+    GameObject CreateToNestPointGameObject()
     {
         toNestPoint = new GameObject();
         toNestPoint.AddComponent<SpriteRenderer>();
         toNestPoint.AddComponent<ToNestPoint>();
         toNestPoint.name = "ToNestPoint";
         toNestPoint.tag = "ToNestPoint";
-        toFoodPoint.layer = 7;
         // dodawanie tekstur do mrówki
         Texture2D toNestPointTexture = (Texture2D)Resources.Load("Textures/Circle");
         Sprite toNestPointSprite = Sprite.Create(toNestPointTexture, new Rect(0f, 0f, toNestPointTexture.width, toNestPointTexture.height), new Vector2(0.5f, 0.5f), 8192);
         toNestPoint.GetComponent<SpriteRenderer>().sprite = toNestPointSprite;
         toNestPoint.GetComponent<SpriteRenderer>().color = Color.cyan;
         toNestPoint.SetActive(false);
+        return toNestPoint;
     }
 }

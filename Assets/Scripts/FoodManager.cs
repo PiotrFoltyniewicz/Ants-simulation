@@ -8,7 +8,7 @@ public class FoodManager : MonoBehaviour
     float foodSpawnRadius = 0.5f;
     GameObject food; // GameObject jedzenia
     Transform foodPoint; // Punkt centrum spawnu jedzenia
-    int foodPointAmount = 3;
+    int foodPointAmount = 1;
     public static List<Transform> foodList = new List<Transform>();
     void Awake()
     {
@@ -16,8 +16,8 @@ public class FoodManager : MonoBehaviour
     }
 
     private void Start()
-    {   
-        for(int i = 0; i < foodPointAmount; i++)
+    {
+        for (int i = 0; i < foodPointAmount; i++)
         {
             CreateFoodPoint();
             for (int j = 0; j < foodAmount; j++)

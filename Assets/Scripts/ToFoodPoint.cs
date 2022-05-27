@@ -4,37 +4,18 @@ using UnityEngine;
 
 public class ToFoodPoint : Point
 {
-    SpriteRenderer spriteRenderer;
-    void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    void Start()
-    {
-        distanceToSource = FindDistanceToSource(source);
-        pointTimeLeft = pointTime;
-        pointStrength = 1/distanceToSource;
-        scale *= pointStrength;
-        SetStartingValues();
-    }
     void FixedUpdate()
     {
         pointTimeLeft -= Time.fixedDeltaTime;
         pointStrength -= scale;
         if (pointTimeLeft < 0)
         {
-            Disappear();
+            gameObject.SetActive(false);
         }
         spriteRenderer.color -= new Color(0f, 0f, 0f, fade);
     }
     protected override float FindDistanceToSource(Transform source)
     {
         return Vector2.Distance(transform.position, source.transform.position);
-    }
-
-    protected override void Disappear()
-    {
-        Nest.toFoodList.Remove(transform);
-        Destroy(gameObject);
     }
 }
