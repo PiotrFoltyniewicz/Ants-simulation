@@ -7,7 +7,7 @@ public class ToNestPoint : Point
     void FixedUpdate()
     {
         pointTimeLeft -= Time.fixedDeltaTime;
-
+        pointStrength -= scale;
         if (pointTimeLeft < 0)
         {
             gameObject.SetActive(false);

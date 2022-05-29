@@ -8,7 +8,7 @@ public class Nest : MonoBehaviour
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
     public static ObjectPooling objectPooling;
-    int antNumber = 50; //liczba mrówek
+    int antNumber = 75; //liczba mrówek
     private void Awake()
     {
         objectPooling = gameObject.AddComponent<ObjectPooling>();
@@ -18,7 +18,7 @@ public class Nest : MonoBehaviour
     }
     void Start()
     {
-        for (int i = 0; i < antNumber; i++)
+        for(int i = 0; i < antNumber; i++)
         {
             ant.transform.eulerAngles = new Vector3(
             ant.transform.eulerAngles.x,
@@ -39,7 +39,7 @@ public class Nest : MonoBehaviour
         if (collider.tag == "Ant")
         {
             collider.GetComponent<Ant>().RestorePoints();
-            if (collider.GetComponent<Ant>().currentState != 2) return;
+            if (collider.GetComponent<Ant>().currentState == 0) return;
             collider.GetComponent<Ant>().TouchedNest();
         }
     }
@@ -57,12 +57,12 @@ public class Nest : MonoBehaviour
         ant.layer = 6;
 
         //dodawanie komponentow dotyczacych stanow
-        ant.AddComponent<AntStateSearch>();
-        ant.GetComponent<AntStateSearch>().pointObject = toNestPoint;
-        ant.AddComponent<AntStateFollow>();
-        ant.GetComponent<AntStateFollow>().pointObject = toNestPoint;
-        ant.AddComponent<AntStateReturn>();
-        ant.GetComponent<AntStateReturn>().pointObject = toFoodPoint;
+        AntStateSearch asSearch = ant.AddComponent<AntStateSearch>();
+        AntStateFollow asFollow = ant.AddComponent<AntStateFollow>();
+        AntStateReturn asReturn = ant.AddComponent<AntStateReturn>();
+        asSearch.pointObject = toNestPoint;
+        asFollow.pointObject = toNestPoint;
+        asReturn.pointObject = toFoodPoint;
         ant.name = "Ant";
         ant.tag = "Ant";
         ant.SetActive(false);
@@ -76,7 +76,7 @@ public class Nest : MonoBehaviour
         GameObject leftSensor = new GameObject("LeftSensor", typeof(Sensor));
         GameObject middleSensor = new GameObject("MiddleSensor", typeof(Sensor));
         GameObject rightSensor = new GameObject("RightSensor", typeof(Sensor));
-        GameObject[] sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
+        GameObject[] sensors = new GameObject[3]{leftSensor, middleSensor, rightSensor};
         leftSensor.transform.parent = ant.transform;
         middleSensor.transform.parent = ant.transform;
         rightSensor.transform.parent = ant.transform;
