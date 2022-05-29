@@ -18,7 +18,7 @@ public class Nest : MonoBehaviour
     }
     void Start()
     {
-        for(int i = 0; i < antNumber; i++)
+        for (int i = 0; i < antNumber; i++)
         {
             ant.transform.eulerAngles = new Vector3(
             ant.transform.eulerAngles.x,
@@ -71,12 +71,13 @@ public class Nest : MonoBehaviour
         Texture2D antTexture = (Texture2D)Resources.Load("Textures/AntTexture");
         Sprite antSprite = Sprite.Create(antTexture, new Rect(0f, 0f, antTexture.width, antTexture.height), new Vector2(0.5f, 0.5f), 4096);
         ant.GetComponent<SpriteRenderer>().sprite = antSprite;
+        ant.GetComponent<SpriteRenderer>().sortingLayerName = "Ant";
 
         // dodawanie i konfiguracja czujnikow
         GameObject leftSensor = new GameObject("LeftSensor", typeof(Sensor));
         GameObject middleSensor = new GameObject("MiddleSensor", typeof(Sensor));
         GameObject rightSensor = new GameObject("RightSensor", typeof(Sensor));
-        GameObject[] sensors = new GameObject[3]{leftSensor, middleSensor, rightSensor};
+        GameObject[] sensors = new GameObject[3] { leftSensor, middleSensor, rightSensor };
         leftSensor.transform.parent = ant.transform;
         middleSensor.transform.parent = ant.transform;
         rightSensor.transform.parent = ant.transform;
