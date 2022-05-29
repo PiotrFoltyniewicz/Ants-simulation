@@ -6,7 +6,7 @@ public abstract class AntState : MonoBehaviour
 {
     public GameObject pointObject; // GameObject obiektu punktu
 
-    protected float mergePointsRadius = 0.05f;
+    protected float mergePointsRadius = 0.7f;
     // funkcja odpowiadajaca za ruch
     public void Move()
     {

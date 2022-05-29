@@ -54,11 +54,14 @@ public class Ant : MonoBehaviour
         if (stepTimeLeft < 0)
         {
             stepTimeLeft = stepTime;
-            if (finalTarget) antState.Turn(0f, moveTarget);
+            if (finalTarget)
+            {
+                antState.Turn(0f, moveTarget);
+            }
             else
             {
                 moveTarget = CheckSensors();
-                if(Vector2.Distance(transform.position,nest.position) <= 1 && currentState == 2) moveTarget = nest;
+                if (Vector2.Distance(transform.position, nest.position) <= 1 && currentState == 2) moveTarget = nest;
                 antState.Turn(maxTurnStrength, moveTarget);
             }
         }
@@ -126,8 +129,15 @@ public class Ant : MonoBehaviour
     {
         ChangeState(1);
         RestorePoints();
-        float angle = Mathf.Atan2(pickedFoodPosition.position.y - transform.position.y, pickedFoodPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        if(pickedFoodPosition != null)
+        {
+            float angle = Mathf.Atan2(pickedFoodPosition.position.y - transform.position.y, pickedFoodPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, transform.eulerAngles.z + 180f);
+        }
         moveTarget = null;
         finalTarget = false;
     }

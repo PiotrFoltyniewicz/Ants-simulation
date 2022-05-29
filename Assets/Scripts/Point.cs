@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Point : MonoBehaviour
 {
-    protected float pointTime = 20f; // czas jak dlugo punkt sie utrzymuje
+    protected float pointTime = 27.5f; // czas jak dlugo punkt sie utrzymuje
     public float pointStrength;
     public float pointTimeLeft; // pozostaly czas do znikniecia
     public float distanceToSource; // odleglosc od mrowiska

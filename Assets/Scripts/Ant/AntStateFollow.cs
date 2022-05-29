@@ -14,6 +14,15 @@ public class AntStateFollow : AntState
     // pozostawienie punktu
     public override void LeavePoint(Vector2 position, Transform source)
     {
+        foreach (GameObject point in ObjectPooling.pooledToNestPoints)
+        {
+            if (Vector2.Distance(transform.position, point.transform.position) < mergePointsRadius && point.activeInHierarchy)
+            {
+                ToNestPoint pointScript = point.GetComponent<ToNestPoint>();
+                pointScript.pointStrength += 1 / pointScript.distanceToSource;
+                return;
+            }
+        }
         GameObject temp = Nest.objectPooling.GetToNestPoint();
         temp.transform.position = position;
         temp.GetComponent<Point>().source = source;

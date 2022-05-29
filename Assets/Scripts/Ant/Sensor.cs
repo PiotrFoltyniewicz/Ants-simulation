@@ -43,6 +43,7 @@ public class Sensor : MonoBehaviour
             FoundNest(transform);
             return;
         }
+        antScript.finalTarget = false;
         if(pointTag == "ToFoodPoint")
         {
             foreach(GameObject point in ObjectPooling.pooledToFoodPoints)

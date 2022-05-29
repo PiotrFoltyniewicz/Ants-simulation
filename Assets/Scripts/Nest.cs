@@ -8,7 +8,7 @@ public class Nest : MonoBehaviour
     public GameObject toFoodPoint; // punkt zostawiajacy mrowka wracajaca z jedzeniem
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
     public static ObjectPooling objectPooling;
-    int antNumber = 75; //liczba mrówek
+    int antNumber = 100; //liczba mrówek
     private void Awake()
     {
         objectPooling = gameObject.AddComponent<ObjectPooling>();
