@@ -8,7 +8,7 @@ public class Sensor : MonoBehaviour
     public int currentState;
     public string pointTag = "ToFoodPoint";
     public float sensorStrength = 0f;
-    float sensorRadius = 0.2f;
+    float sensorRadius = Variables.antSensorRadius;
 
     float checkTime = 0.15f;
     float checkTimeLeft;
@@ -43,7 +43,6 @@ public class Sensor : MonoBehaviour
             FoundNest(transform);
             return;
         }
-        antScript.finalTarget = false;
         if(pointTag == "ToFoodPoint")
         {
             foreach(GameObject point in ObjectPooling.pooledToFoodPoints)

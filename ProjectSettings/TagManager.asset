@@ -44,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 4249336851
+    locked: 0
   - name: Ant
     uniqueID: 3045984293
     locked: 0

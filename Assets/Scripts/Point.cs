@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Point : MonoBehaviour
 {
-    protected float pointTime = 27.5f; // czas jak dlugo punkt sie utrzymuje
+    protected float pointTime = 20f; // czas jak dlugo punkt sie utrzymuje
     public float pointStrength;
     public float pointTimeLeft; // pozostaly czas do znikniecia
     public float distanceToSource; // odleglosc od mrowiska
@@ -15,19 +15,17 @@ public abstract class Point : MonoBehaviour
 
     protected void SetStartingValues()
     {
-        fade = Time.fixedDeltaTime / pointTimeLeft;
-        scale = fade;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
     }
     public void OnCreate()
     {
         distanceToSource = FindDistanceToSource(source);
-        if (distanceToSource < 0.5f) pointTimeLeft = 3 * pointTime;
-        else pointTimeLeft = pointTime / (distanceToSource / 3);
+        if (distanceToSource < 0.5f) pointTimeLeft = 2 * pointTime;
+        else pointTimeLeft = pointTime;
         SetStartingValues();
         pointStrength = 1 / distanceToSource;
-        scale *= pointStrength;
+        scale = pointStrength * (Time.deltaTime / pointTimeLeft);
     }
 
     protected virtual float FindDistanceToSource(Transform source)

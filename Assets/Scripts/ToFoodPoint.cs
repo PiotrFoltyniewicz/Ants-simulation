@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ToFoodPoint : Point
 {
-    void FixedUpdate()
+    void Update()
     {
-        pointTimeLeft -= Time.fixedDeltaTime;
+        pointTimeLeft -= Time.deltaTime;
         pointStrength -= scale;
         if (pointTimeLeft < 0)
         {
             gameObject.SetActive(false);
         }
-        spriteRenderer.color -= new Color(0f, 0f, 0f, fade);
+        spriteRenderer.color -= new Color(0f, 0f, 0f, Time.deltaTime / pointTime);
     }
     protected override float FindDistanceToSource(Transform source)
     {

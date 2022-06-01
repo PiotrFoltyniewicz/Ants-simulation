@@ -6,11 +6,11 @@ public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
     public Transform moveTarget = null; // cel nastepnego kroku
-    public static float movementSpeed = 1f; //maksymalna predkosc
-    public static float maxTurnStrength = 0.3f; // maksymalna sila skretu
-    public static float stepTime = 0.2f; // czas pomiedzy krokami
-    public static float leavePointTime = 0.3f;
-    public static int maxNumOfPoints = 35;
+    public static float movementSpeed = Variables.antMoveSpeed; //maksymalna predkosc
+    float maxTurnStrength = Variables.antMaxTurnStrength; // maksymalna sila skretu
+    float stepTime = Variables.antStepTime; // czas pomiedzy krokami
+    float leavePointTime = Variables.antLeavePointTime;
+    int maxNumOfPoints = Variables.antMaxNumberOfPoints;
     public bool finalTarget = false;
     int remainingPoints;
     public GameObject[] sensors;
@@ -57,6 +57,7 @@ public class Ant : MonoBehaviour
             if (finalTarget)
             {
                 antState.Turn(0f, moveTarget);
+                CheckSensors();
             }
             else
             {
@@ -102,6 +103,7 @@ public class Ant : MonoBehaviour
     }
     Transform CheckSensors()
     {
+        finalTarget = false;
         foreach (var sensor in sensors)
         {
             sensor.GetComponent<Sensor>().CalculateSensorStrength();

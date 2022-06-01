@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FoodManager : MonoBehaviour
 {
-    int foodAmount = 25;
-    float foodSpawnRadius = 0.4f;
+    int foodAmount = Variables.amountOfFoodInPoint;
+    float foodSpawnRadius = Variables.foodSpawnRadiusInPoint;
     GameObject food; // GameObject jedzenia
     Transform foodPoint; // Punkt centrum spawnu jedzenia
-    int foodPointAmount = 3;
+    int foodPointAmount = Variables.amountOfFoodPoints;
     public static List<Transform> foodList = new List<Transform>();
     void Awake()
     {

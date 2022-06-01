@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    int foodAmount = 5;
+    int foodAmount = Variables.foodHealth;
 
     public void TakeFood()
     {
