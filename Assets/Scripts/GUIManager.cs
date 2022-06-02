@@ -8,7 +8,7 @@ using TMPro;
 
 public class GUIManager : MonoBehaviour
 {
-    public GameObject canvasObject;
+   public GameObject canvasObject;
     Dictionary<string,GameObject> inputs = new Dictionary<string,GameObject>();
     bool menuOpened = false;
     
@@ -67,22 +67,36 @@ public class GUIManager : MonoBehaviour
         Button startbutton = startButton.GetComponent<Button>();
         startbutton.onClick.AddListener(() => ResetSimulation());
 
-        // konfiguracja przycisku zmian zmiennych do domyœlnych
-        GameObject defaultButton = new GameObject("StartButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
-        startButton.transform.SetParent(panelObject.transform);
+        // konfiguracja przycisku zmian zmiennych do domyï¿½lnych
+        GameObject defaultButton = new GameObject("DefaultButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        defaultButton.transform.SetParent(panelObject.transform);
         RectTransform defButtonRect = defaultButton.GetComponent<RectTransform>();
-        defButtonRect.anchorMax = new Vector2(1, 0);
-        defButtonRect.anchorMin = new Vector2(1, 0);
-        defButtonRect.pivot = new Vector2(1, 0);
-        defButtonRect.anchoredPosition = new Vector2(-25, 25);
-        defButtonRect.sizeDelta = new Vector2(100, 100);
+        defButtonRect.anchorMax = new Vector2(0, 0);
+        defButtonRect.anchorMin = new Vector2(0, 0);
+        defButtonRect.pivot = new Vector2(0, 0);
+        defButtonRect.anchoredPosition = new Vector2(50, 25);
+        defButtonRect.sizeDelta = new Vector2(200, 100);
         defButtonRect.localScale = new Vector2(1, 1);
         Button defButton = defaultButton.GetComponent<Button>();
         defButton.onClick.AddListener(() => Variables.SetToDefault());
 
+
+        GameObject exitButton = new GameObject("ExitButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        exitButton.transform.SetParent(panelObject.transform);
+        RectTransform exitButtonRect = exitButton.GetComponent<RectTransform>();
+        exitButtonRect.anchorMax = new Vector2(1, 1);
+        exitButtonRect.anchorMin = new Vector2(1, 1);
+        exitButtonRect.pivot = new Vector2(1, 1);
+        exitButtonRect.anchoredPosition = new Vector2(-25, -25);
+        exitButtonRect.sizeDelta = new Vector2(50, 50);
+        exitButtonRect.localScale = new Vector2(1, 1);
+        Button exButton = exitButton.GetComponent<Button>();
+        exButton.onClick.AddListener(() => ShowMenu(panelObject));
+
         settButton.onClick.AddListener(() => ShowMenu(panelObject));
         PlaceInputs(panelObject);
         panelObject.SetActive(false);
+
     }
 
     void PlaceInputs(GameObject panel)
@@ -100,7 +114,7 @@ public class GUIManager : MonoBehaviour
         inputs.Add("FoodSpawnRadiusInPoint", new GameObject("FoodSpawnRadiusInPoint", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(TMP_InputField)));
         inputs.Add("AmountOfFoodPoints", new GameObject("AmountOfFoodPoints", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(TMP_InputField)));
 
-        int posY = -20;
+        int posY = -40;
         foreach(GameObject input in inputs.Values)
         {
             RectTransform inputRect = input.GetComponent<RectTransform>();
@@ -111,12 +125,26 @@ public class GUIManager : MonoBehaviour
             inputRect.anchoredPosition = new Vector2(-125, posY);
             inputRect.sizeDelta = new Vector2(250, 35);
             inputRect.localScale = new Vector2(1, 1);
-            posY -= 55;
+            posY -= 50;
 
             TMP_InputField inputField = input.GetComponent<TMP_InputField>();
 
-            // dodaæ komponenty text itp skonfigurowaæ menu, i zrobiæ ¿e mo¿na zmieniaæ zmienne do symulacji !!!!
-            // dodaæ text do przycisków zamiast ikon wtf
+            GameObject text = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+            text.transform.SetParent(input.transform);
+            text.GetComponent<TextMeshProUGUI>().color = Color.black;
+            RectTransform textRect = text.GetComponent<RectTransform>();
+            textRect.anchorMax = new Vector2(0.5f, 0.5f);
+            textRect.anchorMin = new Vector2(0.5f, 0.5f);
+            textRect.pivot = new Vector2(0.5f, 0.5f);
+            textRect.anchoredPosition = new Vector2(0, 0);
+            textRect.sizeDelta = new Vector2(250, 35);
+            textRect.localScale = new Vector2(1, 1);
+
+            inputField.textViewport = textRect;
+            inputField.textComponent = text.GetComponent<TextMeshProUGUI>();
+            inputField.fontAsset = (TMP_FontAsset)Resources.Load("LiberationSans SDF");
+            // dodaï¿½ komponenty text itp skonfigurowaï¿½ menu, i zrobiï¿½ ï¿½e moï¿½na zmieniaï¿½ zmienne do symulacji !!!!
+            // dodaï¿½ text do przyciskï¿½w zamiast ikon wtf
         }
     }
     void ShowMenu(GameObject menu)
@@ -125,6 +153,13 @@ public class GUIManager : MonoBehaviour
         {
             menu.SetActive(true);
             Time.timeScale = 0f;
+            menuOpened = true;
+        }
+        else
+        {
+            menu.SetActive(false);
+            Time.timeScale = Variables.timeSpeed;
+            menuOpened = false;
         }
     }
 
