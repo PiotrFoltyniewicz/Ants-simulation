@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa AntStateFollow dziedziczy od AntState i odpowiada za zachowanie mrowki w stanie podazania za punktami jedzenia
+ */ 
 public class AntStateFollow : AntState
 {
+    // metoda odpowiadajaca za obrot mrowki
     public override void Turn(float turnAngle, Transform target)
     {
         Vector2 desiredPos = (Vector2)target.position + (Random.insideUnitCircle * turnAngle / 2);
@@ -14,6 +18,7 @@ public class AntStateFollow : AntState
     // pozostawienie punktu
     public override void LeavePoint(Vector2 position, Transform source)
     {
+        // jezeli jakis punkt jest blisko to punkty lacza sie w jeden
         foreach (GameObject point in ObjectPooling.pooledToNestPoints)
         {
             if (Vector2.Distance(transform.position, point.transform.position) < mergePointsRadius && point.activeInHierarchy)

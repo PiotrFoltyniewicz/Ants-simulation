@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa FoodManager zarzadza systemem tworzenia jedzenia na mapie
+ */
 public class FoodManager : MonoBehaviour
 {
-    int foodAmount = (int)Variables.GetVariable("amountOfFoodInPoint");
-    float foodSpawnRadius = (float)Variables.GetVariable("foodSpawnRadiusInPoint");
+    int foodAmount = (int)Variables.GetVariable("amountOfFoodInPoint"); // ilosc mniejszych zielonych punktow w okregu
+    float foodSpawnRadius = (float)Variables.GetVariable("foodSpawnRadiusInPoint"); // zasieg pojawiania sie mniejszych zielonych punktow w okregu
     GameObject food; // GameObject jedzenia
-    Transform foodPoint; // Punkt centrum spawnu jedzenia
-    int foodPointAmount = (int)Variables.GetVariable("amountOfFoodPoints");
-    public static List<Transform> foodList = new List<Transform>();
+    Transform foodPoint; // punkt centrum spawnu jedzenia
+    int foodPointAmount = (int)Variables.GetVariable("amountOfFoodPoints"); // ilosc punktow wookol ktorych pojawiaja sie mniejsze zielone punkty jedzeia
+    public static List<Transform> foodList = new List<Transform>(); // lista przechowujaca punkty jedzenia
+
     void Awake()
     {
         CreateFoodGameObject();

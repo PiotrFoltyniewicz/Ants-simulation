@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
+ * statyczna klasa Variables odpowiada za przechowywanie i zarzadzanie zmiennymi, ktore maja byc latwo dostepne
+ * i nie maja sie resetowac przy kazdym resecie symulacji
+ */
 public static class Variables
 {
-    public static Dictionary<string, object> variables = new Dictionary<string, object>()
+    // slownik przechowujacy zmienne
+    private static Dictionary<string, object> variables = new Dictionary<string, object>()
     {
         {"antMoveSpeed", 1f},
         {"antMaxTurnStrength", 0.3f},
@@ -21,14 +26,19 @@ public static class Variables
         {"amountOfFoodPoints", 3},
     };
 
+    // getter umozliwiajacy wziecie wartosci
     public static object GetVariable(string key)
     {
         return variables[key];
     }
+
+    // setter umozliwiajacy ustawienie wartosci
     public static void SetVariable(string key, object value)
     {
         variables[key] = value;
     }
+
+    // metoda ustawiajaca zmienne do wartosci domyslnych
     public static void SetToDefault()
     {
         variables["antMoveSpeed"] = 1f;

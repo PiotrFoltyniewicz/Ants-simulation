@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa Main jest glowna klasa w ktorej wszystko sie zaczyna i tworzone sa podstawowe elementy
+ */
 public class Main : MonoBehaviour
 {
     GameObject nest; // zmienna przechowujaca obiekt mrowiska
+
     private void Start()
     {
         Time.timeScale = (float)Variables.GetVariable("timeSpeed");
@@ -33,6 +37,7 @@ public class Main : MonoBehaviour
         nest.transform.position = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
 
     }
+    // tworzenie scian
     void CreateBoundaryColliders()
     {
         BoxCollider2D top = gameObject.AddComponent<BoxCollider2D>();

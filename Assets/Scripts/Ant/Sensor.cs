@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * klasa Sensor odpowiada za dzialanie czujnika, obliczanie jego sily i sprawdzanie jakie punkty na mapie sa w jego zasiegu
+ */
 public class Sensor : MonoBehaviour
 {
-    public Ant antScript;
-    public int currentState;
-    public string pointTag = "ToFoodPoint";
-    public float sensorStrength = 0f;
-    float sensorRadius = (float)Variables.GetVariable("antSensorRadius");
+    public Ant antScript; // zmienna przechowujaca skrypt mrowki do ktorej nalezy ten czujnik
+    public int currentState; // aktualny stan mrowki
+    public string pointTag = "ToFoodPoint"; // tag punktu, jakiego szuka mrowka
+    public float sensorStrength = 0f; // aktualna sila czujnika
+    float sensorRadius = (float)Variables.GetVariable("antSensorRadius"); // promien czujnika
 
-    float checkTime = 0.15f;
-    float checkTimeLeft;
-    public List<Transform> insideSensorList = new List<Transform>();
+    float checkTime = 0.15f; // czas pomiedzy szukaniem przez czujnik punktow znajdujacych sie w nim
+    float checkTimeLeft; // czas pozostaly pomiedzy szukaniem przez czujnik punktow znajdujacych sie w nim
+    public List<Transform> insideSensorList = new List<Transform>(); // lista punktow znajdujacych sie w czujnku
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class Sensor : MonoBehaviour
             Check();
         }
     }
+    // metoda sprawdzajaca jakie punkty znajduja sie w czujniku
     void Check()
     {
         insideSensorList.Clear();
@@ -74,18 +77,21 @@ public class Sensor : MonoBehaviour
             }
         }
     }
+
+    // metoda odpowiadajaca za zachowanie mrowki w momencie 'zobaczenia' jedzenia
     void FoundFood(Transform food)
     {
         antScript.ChangeState(1);
         antScript.moveTarget = food;
         antScript.finalTarget = true;
     }
+    // metoda odpowiadajaca za zachowanie mrowki w momencie 'zobaczenia' mrowiska
     void FoundNest(Transform nest)
     {
         antScript.moveTarget = nest;
         antScript.finalTarget = true;
     }
-
+    // metoda obliczajaca sile czujnika
     public void CalculateSensorStrength()
     {
         sensorStrength = 0f;

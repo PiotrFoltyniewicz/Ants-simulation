@@ -2,28 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+ * klasa Ant zawiera zmienne i metody odpowiadajace za podstawowe zachowanie mrowki, zmiane stanow oraz wywolywanie bardziej specyficznych
+ * metod znajdujacych sie w innych klasach
+*/
 public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
     public Transform moveTarget = null; // cel nastepnego kroku
-    public static float movementSpeed = (float)Variables.GetVariable("antMoveSpeed"); //maksymalna predkosc
+    public static float movementSpeed = (float)Variables.GetVariable("antMoveSpeed"); // maksymalna predkosc
     float maxTurnStrength = (float)Variables.GetVariable("antMaxTurnStrength"); // maksymalna sila skretu
     float stepTime = (float)Variables.GetVariable("antStepTime"); // czas pomiedzy krokami
-    float leavePointTime = (float)Variables.GetVariable("antLeavePointTime");
-    int maxNumOfPoints = (int)Variables.GetVariable("antMaxNumberOfPoints");
-    public bool finalTarget = false;
-    int remainingPoints;
-    public GameObject[] sensors;
-    float leavePointTimeLeft = 0f;
+    float leavePointTime = (float)Variables.GetVariable("antLeavePointTime"); // czas pomiedzy zostawianiem punktow
+    int maxNumOfPoints = (int)Variables.GetVariable("antMaxNumberOfPoints"); // maksymalna ilosc punktow 
+    public bool finalTarget = false; // wartosc staje sie true kiedy mrowka 'widzi' jedzenie lub mrowisko
+    int remainingPoints; // pozostale punkty do zostawienia
+    public GameObject[] sensors; // tablica przechowujaca GameObjecty czujnikow
+    float leavePointTimeLeft = 0f; // czas pozostaly do polozenia punktu
     float stepTimeLeft = 0f; // czas pozostaly do nastepnego kroku
     public int currentState; // obecny stan w postaci cyfry
-    AntState[] states;
-    public Transform nest;
-    public Transform pickedFoodPosition;
+    AntState[] states; // tablica przechowujaca klasy odpowiadajace za zachowanie mrówki wed³ug danego stanu
+    public Transform nest; // zmienna przechowujaca pozycje mrowiska
+    public Transform pickedFoodPosition; // zmienna przechowujaca pozycje ostatnio podniesionego jedzenia
 
     void Awake()
     {
-        // dodanie komponentow stanow mrowki do obiektu
         states = new AntState[3] { gameObject.GetComponent<AntStateSearch>(), gameObject.GetComponent<AntStateFollow>(), gameObject.GetComponent<AntStateReturn>() };
     }
 
@@ -35,9 +38,9 @@ public class Ant : MonoBehaviour
 
     void Update()
     {
-        // jezeli nadszedl czas zrobienia kroku to obrot mrowki i ruch
         stepTimeLeft -= Time.deltaTime;
         leavePointTimeLeft -= Time.deltaTime;
+        // pozostawienie punktu
         if (leavePointTimeLeft < 0 && remainingPoints > 0)
         {
             leavePointTimeLeft = leavePointTime;
@@ -51,6 +54,7 @@ public class Ant : MonoBehaviour
             }
             remainingPoints--;
         }
+        // wykonanie obrotu
         if (stepTimeLeft < 0)
         {
             stepTimeLeft = stepTime;
@@ -66,6 +70,7 @@ public class Ant : MonoBehaviour
                 antState.Turn(maxTurnStrength, moveTarget);
             }
         }
+        // wykonanie ruchu
         antState.Move();
     }
     // zmiana stanu mrowki
@@ -101,6 +106,7 @@ public class Ant : MonoBehaviour
         }
 
     }
+    // obliczenie sily kazdego z czujnikow i zwrocenie pozycji najsilniejszego czujnika
     Transform CheckSensors()
     {
         finalTarget = false;
@@ -116,6 +122,7 @@ public class Ant : MonoBehaviour
         }
         return chosen;
     }
+    // zmiana stanu mrowki i obrot w przypadku dotkniecia jedzenia
     public void TouchedFood(Transform foodPos)
     {
         ChangeState(2);
@@ -126,10 +133,10 @@ public class Ant : MonoBehaviour
         moveTarget = null;
         finalTarget = false;
     }
-
+    // zmiana stanu mrowki i obrot w przypadku dotkniecia mrowiska
     public void TouchedNest()
     {
-        ChangeState(1);
+        ChangeState(0);
         RestorePoints();
         if (pickedFoodPosition != null)
         {
@@ -143,16 +150,15 @@ public class Ant : MonoBehaviour
         moveTarget = null;
         finalTarget = false;
     }
-
+    // odnowienie liczby pozostalych punktow
     public void RestorePoints()
     {
         remainingPoints = maxNumOfPoints;
     }
-
+    // odbicie mrowki od sciany
     private void OnCollisionEnter2D(Collision2D coll)
     {
         float bounce = transform.eulerAngles.z;
-        //odbicie mrowki od sciany
         transform.rotation = Quaternion.Euler(0, 0, bounce + Random.Range(150, 210));
     }
 }

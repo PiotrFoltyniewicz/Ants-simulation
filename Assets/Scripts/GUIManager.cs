@@ -7,14 +7,19 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Globalization;
 using System.Text.RegularExpressions;
+
+/*
+ * klasa GUIManager tworzy menu i zarzadza nim
+ */
 public class GUIManager : MonoBehaviour
 {
-    public GameObject canvasObject;
-    Dictionary<string, GameObject> inputs = new Dictionary<string, GameObject>();
-    bool menuOpened = false;
+    public GameObject canvasObject; // obiekt przetrzymujacy GUI
+    Dictionary<string, GameObject> inputs = new Dictionary<string, GameObject>(); // lista obiektow ze zmiennymi gdzie mozna zmieniac wartosc
+    bool menuOpened = false; // wartosc okreslajaca czy menu jest otwarte
 
     void Awake()
     {
+        // stworzenie podstawowych GameObjectow do menu
         canvasObject = new GameObject("Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         CanvasScaler canvasScaler = canvasObject.GetComponent<CanvasScaler>();
         canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -96,7 +101,7 @@ public class GUIManager : MonoBehaviour
             textRect.localScale = new Vector2(1, 1);
         }
 
-        // konfiguracja przycisku zmian zmiennych do domyślnych
+        // konfiguracja przycisku zmian zmiennych do domyslnych
         GameObject defaultButton = new GameObject("DefaultButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
         defaultButton.transform.SetParent(panelObject.transform);
         RectTransform defButtonRect = defaultButton.GetComponent<RectTransform>();
@@ -130,7 +135,7 @@ public class GUIManager : MonoBehaviour
             textRect.localScale = new Vector2(1, 1);
         }
 
-
+        // konfiguracja przycisku wyjscia z menu
         GameObject exitButton = new GameObject("ExitButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
         exitButton.transform.SetParent(panelObject.transform);
         RectTransform exitButtonRect = exitButton.GetComponent<RectTransform>();
@@ -162,6 +167,7 @@ public class GUIManager : MonoBehaviour
         panelObject.SetActive(false);
 
     }
+    // metoda tworzaca obiekty do zmieniania zmiennych w menu
     void PlaceInputs(GameObject panel)
     {
         inputs.Add("antMoveSpeed", new GameObject("AntMoveSpeed", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(TMP_InputField)));
@@ -212,11 +218,9 @@ public class GUIManager : MonoBehaviour
             descriptionText.GetComponent<RectTransform>().anchoredPosition = new Vector2(260, 0);
             descriptionText.GetComponent<TextMeshProUGUI>().text = Regex.Replace(input.Key, "([a-z])([A-Z])", "$1 $2");
             descriptionText.GetComponent<TextMeshProUGUI>().fontSize = 22;
-
-            // dodać komponenty text itp skonfigurować menu, i zrobić że można zmieniać zmienne do symulacji !!!!
-            // dodać text do przycisków zamiast ikon wtf
         }
     }
+    // wyswietlanie menu
     void ShowMenu(GameObject menu)
     {
         if (!menuOpened)
@@ -232,7 +236,7 @@ public class GUIManager : MonoBehaviour
             menuOpened = false;
         }
     }
-
+    // reset symulacji
     void ResetSimulation()
     {
         int i = 0;

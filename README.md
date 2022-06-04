@@ -1,10 +1,10 @@
 # Ants-simulation
 ## Simulation of forming paths using ant colony optimization algorithm
 
-Authors:
-Splexu - Michał Cierpicki
-GaguSUS - Krzysztof Gągało
-PiotrFoltyniewicz - Piotr Foltyniewicz
+Authors
+- Splexu - Michał Cierpicki
+- GaguSUS - Krzysztof Gągało
+- PiotrFoltyniewicz - Piotr Foltyniewicz
 
 ![alt text](./Screenshots/simulation1.png)
 ![alt text](./Screenshots/simulation2.png)

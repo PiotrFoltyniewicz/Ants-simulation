@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa Nest odpowiada za mrowisko, tworzenie mrowek i punktow
+ */
 public class Nest : MonoBehaviour
 {
     GameObject ant; // GameObject mrowki
@@ -9,6 +12,7 @@ public class Nest : MonoBehaviour
     public GameObject toNestPoint; // punkt zostawiajacy mrowka szukajaca jedzenia
     public static ObjectPooling objectPooling;
     int antNumber = (int)Variables.GetVariable("amountOfAnts"); //liczba mrówek
+
     private void Awake()
     {
         objectPooling = gameObject.AddComponent<ObjectPooling>();
@@ -16,6 +20,7 @@ public class Nest : MonoBehaviour
         objectPooling.toFoodPoint = CreateToFoodPointGameObject();
         CreateAntGameObject();
     }
+
     void Start()
     {
         for (int i = 0; i < antNumber; i++)
@@ -28,12 +33,12 @@ public class Nest : MonoBehaviour
         }
 
     }
-
+    // stworzenie mrowki
     void SpawnAnt()
     {
         Instantiate(ant, transform).SetActive(true);
     }
-
+    // metoda odpowiada za zachowanie mrowki w przypadku dotkniecia mrowiska
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Ant")
@@ -43,7 +48,7 @@ public class Nest : MonoBehaviour
             collider.GetComponent<Ant>().TouchedNest();
         }
     }
-
+    // stworzenie GameObjectu mrowki
     void CreateAntGameObject()
     {
         // tworzenie GameObject mrowki i inne
@@ -93,6 +98,8 @@ public class Nest : MonoBehaviour
         ant.GetComponent<Ant>().sensors = sensors;
         ant.GetComponent<Ant>().nest = transform;
     }
+
+    // tworzenie GameObjectu punktu prowadzacego do jedzenia
     GameObject CreateToFoodPointGameObject()
     {
         toFoodPoint = new GameObject();
@@ -109,6 +116,7 @@ public class Nest : MonoBehaviour
         return toFoodPoint;
     }
 
+    // tworzenie GameObjectu punktu prowadzacego do mrowiska
     GameObject CreateToNestPointGameObject()
     {
         toNestPoint = new GameObject();

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa AntStateSearch dziedziczy od AntState i odpowiada za zachowanie mrowki w stanie szukania jedzenia lub punktow prowadzacych do jedzenia
+ */
 public class AntStateSearch : AntState
 {
     // obrot mrowki 
@@ -15,6 +18,7 @@ public class AntStateSearch : AntState
     // pozostawienie punktu
     public override void LeavePoint(Vector2 position, Transform source)
     {
+        // jezeli jakis punkt jest blisko to punkty lacza sie w jeden
         foreach (GameObject point in ObjectPooling.pooledToNestPoints)
         {
             if (Vector2.Distance(transform.position, point.transform.position) < mergePointsRadius && point.activeInHierarchy)

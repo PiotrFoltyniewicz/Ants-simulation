@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * klasa ToFoodPoint dziedziczy od klasy Point i odpowiada za dzialanie punktu prowadzacego do jedzenia
+ */
 public class ToFoodPoint : Point
 {
     void Update()
@@ -14,6 +17,7 @@ public class ToFoodPoint : Point
         }
         spriteRenderer.color -= new Color(0f, 0f, 0f, Time.deltaTime / pointTime);
     }
+
     protected override float FindDistanceToSource(Transform source)
     {
         return Vector2.Distance(transform.position, source.transform.position);
