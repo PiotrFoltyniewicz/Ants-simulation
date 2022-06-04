@@ -6,11 +6,11 @@ public class Ant : MonoBehaviour
 {
     AntState antState; // zmienna przechowujaca stan mrowki
     public Transform moveTarget = null; // cel nastepnego kroku
-    public static float movementSpeed = Variables.antMoveSpeed; //maksymalna predkosc
-    float maxTurnStrength = Variables.antMaxTurnStrength; // maksymalna sila skretu
-    float stepTime = Variables.antStepTime; // czas pomiedzy krokami
-    float leavePointTime = Variables.antLeavePointTime;
-    int maxNumOfPoints = Variables.antMaxNumberOfPoints;
+    public static float movementSpeed = (float)Variables.GetVariable("antMoveSpeed"); //maksymalna predkosc
+    float maxTurnStrength = (float)Variables.GetVariable("antMaxTurnStrength"); // maksymalna sila skretu
+    float stepTime = (float)Variables.GetVariable("antStepTime"); // czas pomiedzy krokami
+    float leavePointTime = (float)Variables.GetVariable("antLeavePointTime");
+    int maxNumOfPoints = (int)Variables.GetVariable("antMaxNumberOfPoints");
     public bool finalTarget = false;
     int remainingPoints;
     public GameObject[] sensors;
@@ -41,7 +41,7 @@ public class Ant : MonoBehaviour
         if (leavePointTimeLeft < 0 && remainingPoints > 0)
         {
             leavePointTimeLeft = leavePointTime;
-            if(currentState == 2)
+            if (currentState == 2)
             {
                 antState.LeavePoint(transform.position, pickedFoodPosition);
             }
@@ -71,16 +71,16 @@ public class Ant : MonoBehaviour
     // zmiana stanu mrowki
     public void ChangeState(int stateNum)
     {
-        if(currentState != stateNum)
-        foreach (var sensor in sensors)
-        {
-            Sensor sensorScript = sensor.GetComponent<Sensor>();
-            sensorScript.currentState = stateNum;
-            sensorScript.insideSensorList.Clear();
-            sensorScript.sensorStrength = 0f;
-            if (stateNum == 0 || stateNum == 1) sensorScript.pointTag = "ToFoodPoint";
-            else sensorScript.pointTag = "ToNestPoint";
-        }
+        if (currentState != stateNum)
+            foreach (var sensor in sensors)
+            {
+                Sensor sensorScript = sensor.GetComponent<Sensor>();
+                sensorScript.currentState = stateNum;
+                sensorScript.insideSensorList.Clear();
+                sensorScript.sensorStrength = 0f;
+                if (stateNum == 0 || stateNum == 1) sensorScript.pointTag = "ToFoodPoint";
+                else sensorScript.pointTag = "ToNestPoint";
+            }
         switch (stateNum)
         {
             // stan szukania sladow/jedzenia
@@ -99,7 +99,7 @@ public class Ant : MonoBehaviour
                 currentState = 2;
                 break;
         }
-        
+
     }
     Transform CheckSensors()
     {
@@ -131,7 +131,7 @@ public class Ant : MonoBehaviour
     {
         ChangeState(1);
         RestorePoints();
-        if(pickedFoodPosition != null)
+        if (pickedFoodPosition != null)
         {
             float angle = Mathf.Atan2(pickedFoodPosition.position.y - transform.position.y, pickedFoodPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    int foodAmount = Variables.foodHealth;
+    int foodAmount = (int)Variables.GetVariable("foodHealth");
 
     public void TakeFood()
     {
         foodAmount--;
         if (foodAmount <= 0)
-        {   
+        {
             FoodManager.foodList.Remove(transform);
             gameObject.SetActive(false);
         }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class Main : MonoBehaviour
 {
     GameObject nest; // zmienna przechowujaca obiekt mrowiska
-     private void Awake()
-    {  
-        Time.timeScale = Variables.timeSpeed;
+    private void Start()
+    {
+        Time.timeScale = (float)Variables.GetVariable("timeSpeed");
         gameObject.AddComponent<FoodManager>();
         gameObject.AddComponent<GUIManager>();
         CreateNestGameObject();
